@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<header>
+    <img id="logopie" src="img/LOGO_CENCA-removebg-preview.png">
+</header>
+<body>
+    <div class="container">
+        <h1> Datos</h1>
+
+        <form action="generar_pdf.php" method="POST">
+            <div class="form-section">
+                <div class="form-group">
+                    <h2>Datos Fiscales</h2>
+                    <label>Versión:</label>
+                    <input type="text" name="version" value="3.3" readonly required class="no-edit">
+                    
+                    <label>N° de Certificado del SAT:</label>
+                    <input type="text" name="certificadoSAT" required>
+                    <label>Lugar de Expedición:</label>
+                    <input type="text" name="Expedición" required>
+                    <label>Fecha y Hora de Expedición:</label>
+                    <input type="datetime-local" name="fechaExpedicion" required>
+
+                    <label>Tipo de Comprobante:</label>
+                    <select name="tipoComprobante" required>
+                        <option value="I">Ingreso</option>
+                        <option value="T">Traslado</option>
+                    </select>
+
+                    <label>Uso de CFDI:</label>
+                    <select name="usoCfdi" required>
+                        <option value="P01">Por definir</option>
+                    <option value="Definitivo de importación">Definitivo de importación</option>
+                    <option value="Definitivo de exportación">Definitivo de exportación</option>
+        <option value="Temporales de importación para retomar al extranjero en el mismo estado">Temporales de importación para retomar al extranjero en el mismo estado</option>
+        <option value="Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX">Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX</option>
+        <option value="Temporales de exportación para retornar al país en el mismo estado">Temporales de exportación para retornar al país en el mismo estado</option>
+        <option value="Temporales de exportación para elaboración, transformación o reparación">Temporales de exportación para elaboración, transformación o reparación</option>
+        <option value="Depósito Fiscal">Depósito Fiscal</option>
+        <option value="Elaboración, transformación o reparación en recinto fiscalizado">Elaboración, transformación o reparación en recinto fiscalizado</option>
+        <option value="Recinto fiscalizado estratégico">Recinto fiscalizado estratégico</option>
+        <option value="Tránsitos">Tránsitos</option>
+                    </select>
+
+                    <label>Tipo de Relación:</label>
+                    <select name="tipoRelacion" required>
+                        <option value="05">Traslados de mercancías facturadas previamente</option>
+            <option value="06">De Intercambio</option>
+            <option value="06">De Donación</option>
+            <option value="06">Reciprocidad</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Receptor</h3>
+                    
+                    <label>Régimen Fiscal::</label>
+                    <input type="text" name="Regimen fiscal" required>
+                    <label>Domicilio:</label>
+                    <input type="text" name="Domicilio" required>
+                    <label>RFC:</label>
+                    <input type="text" name="rfcReceptor" required>
+
+                    <label>Razón Social:</label>
+                    <input type="text" name="razonSocialReceptor" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Ubicaciones</h3>
+                    <label>ID Origen:</label>
+                    <input type="text" name="idOrigen" required>
+                    <label>Tipo de Transporte:</label>
+                    <select name="tipoTransporte" required>
+                        <option value="nacional">Nacional</option>
+                        <option value="Internacional">Internacional</option>
+
+                    <label>RFC Remitente:</label>
+                    <input type="text" name="rfcRemitente" required>
+
+                    <label>Nombre Remitente:</label>
+                    <input type="text" name="nombreRemitente" required>
+
+                    <label>Fecha de Salida:</label>
+                    <input type="datetime-local" name="fechaSalida" required>
+
+                    <label>ID Destino:</label>
+                    <input type="text" name="idDestino" required>
+
+                    <label>RFC Destinatario:</label>
+                    <input type="text" name="rfcDestinatario" required>
+
+                    <label>Fecha de Llegada:</label>
+                    <input type="datetime-local" name="fechaLlegada" required>
+                    <label>Distancia Recorrida:</label>
+                    <input type="number" name="distancia" required>
+
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Mercancías</h3>
+                    <label>Tipo de Mercancía:</label>
+                    <select name="tipoMercancia" required>
+                        <option value="no_existe_en_catalogo">No existe en el catálogo</option>
+                        <option value="animales_vivos_de_granja">Animales vivos de granja</option>
+                        <option value="caballos">Caballos</option>
+                        <option value="ovejas">Ovejas</option>
+                        <option value="peces_vivos">Peces vivos</option>
+                        <option value="alimento_perros_gatos">Alimento para perros y gatos</option>
+                    </select>
+                    <label>Descripción:</label>
+                    <input type="text" name="descripcionMercancia" required>
+                    <label>Cantidad:</label>
+            <input type="number" name="cantidad" required>
+            <label>Dimensiones (Largo x Ancho x Alto):</label>
+            <div class="dimensiones-group">
+                <input type="number" name="largo" placeholder="Largo (m)" step="0.01" required>
+                <input type="number" name="ancho" placeholder="Ancho (m)" step="0.01" required>
+                <input type="number" name="alto" placeholder="Alto (m)" step="0.01" required>
+            </div>
+            <label>Volumen (m³):</label>
+            <input type="number" name="volumen" placeholder="Volumen (m³)" step="0.01" readonly>
+            <label>Peso en Kg:</label>
+            <input type="number" name="pesoKg" required>
+            <label>Material:</label>
+                <select name="materiales">
+                    <option value="picrato amónico seco o humedecido con menos del 10%, en masa, de agua">Picrato amónico seco o humedecido con menos del 10%, en masa, de agua</option>
+                    <option value="cartuchos para armas, con carga explosiva">Cartuchos para armas, con carga explosiva</option>
+                    <option value="municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora">Municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas">Cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas</option>
+                    <option value="municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora">Municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora">Municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones tóxicas con carga dispersora, carga expulsora o carga propulsora">Municiones tóxicas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="pólvora negra (pólvora de cañón) en forma de granos o polvo">Pólvora negra (pólvora de cañón) en forma de granos o polvo</option>
+                    <option value="detonadores eléctricos para voladuras">Detonadores eléctricos para voladuras</option>
+                    <option value="bombas con carga explosiva">Bombas con carga explosiva</option>
+                    <option value="multiplicadores sin detonador">Multiplicadores sin detonador</option>
+                    <option value="cargas de demolición">Cargas de demolición</option>
+                    <option value="cartuchos de señales">Cartuchos de señales</option>
+                    <option value="vainas de cartuchos vacíos, con cebo">Vainas de cartuchos vacíos, con cebo</option>
+                    <option value="mecha detonante flexible">Mecha detonante flexible</option>
+                    <option value="detonadores para municiones">Detonadores para municiones</option>
+                    <option value="explosivos para voladuras, tipo a">Explosivos para voladuras, tipo A</option>
+                    <option value="explosivos para voladuras, tipo b">Explosivos para voladuras, tipo B</option>
+                    <option value="explosivos para voladuras, tipo c">Explosivos para voladuras, tipo C</option>
+                    <option value="bengalas aéreas">Bengalas aéreas</option>
+                    <option value="cohetes con carga explosiva">Cohetes con carga explosiva</option>
+                    <option value="espoletas detonantes">Espoletas detonantes</option>
+                    <option value="picrato amónico seco o humedecido con menos del 10%, en masa, de agua">Picrato amónico seco o humedecido con menos del 10%, en masa, de agua</option>
+                    <option value="cartuchos para armas, con carga explosiva">Cartuchos para armas, con carga explosiva</option>
+                    <option value="municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora">Municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas">Cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas</option>
+                    <option value="municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora">Municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora">Municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones tóxicas con carga dispersora, carga expulsora o carga propulsora">Municiones tóxicas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="pólvora negra (pólvora de cañón) en forma de granos o polvo">Pólvora negra (pólvora de cañón) en forma de granos o polvo</option>
+                    <option value="detonadores eléctricos para voladuras">Detonadores eléctricos para voladuras</option>
+                    <option value="bombas con carga explosiva">Bombas con carga explosiva</option>
+                    <option value="multiplicadores sin detonador">Multiplicadores sin detonador</option>
+                    <option value="cargas de demolición">Cargas de demolición</option>
+                    <option value="cartuchos de señales">Cartuchos de señales</option>
+                    <option value="vainas de cartuchos vacíos, con cebo">Vainas de cartuchos vacíos, con cebo</option>
+                    <option value="mecha detonante flexible">Mecha detonante flexible</option>
+                    <option value="detonadores para municiones">Detonadores para municiones</option>
+                    <option value="explosivos para voladuras, tipo a">Explosivos para voladuras, tipo A</option>
+                    <option value="explosivos para voladuras, tipo b">Explosivos para voladuras, tipo B</option>
+                    <option value="explosivos para voladuras, tipo c">Explosivos para voladuras, tipo C</option>
+                    <option value="bengalas aéreas">Bengalas aéreas</option>
+                    <option value="cohetes con carga explosiva">Cohetes con carga explosiva</option>
+                    <option value="espoletas detonantes">Espoletas detonantes</option>
+                    <option value="plaguicidas sólidos, n.e.p.">Plaguicidas sólidos, N.E.P.</option>
+                    <option value="plaguicidas líquidos, n.e.p.">Plaguicidas líquidos, N.E.P.</option>
+                    <option value="fertilizantes con nitrato de amonio">Fertilizantes con nitrato de amonio</option>
+                    <option value="picrato amónico seco o humedecido con menos del 10%, en masa, de agua">Picrato amónico seco o humedecido con menos del 10%, en masa, de agua</option>
+                    <option value="cartuchos para armas, con carga explosiva">Cartuchos para armas, con carga explosiva</option>
+                    <option value="municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora">Municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas">Cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas</option>
+                    <option value="municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora">Municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora">Municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones tóxicas con carga dispersora, carga expulsora o carga propulsora">Municiones tóxicas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="pólvora negra (pólvora de cañón) en forma de granos o polvo">Pólvora negra (pólvora de cañón) en forma de granos o polvo</option>
+                    <option value="detonadores eléctricos para voladuras">Detonadores eléctricos para voladuras</option>
+                    <option value="bombas con carga explosiva">Bombas con carga explosiva</option>
+                    <option value="multiplicadores sin detonador">Multiplicadores sin detonador</option>
+                    <option value="cargas de demolición">Cargas de demolición</option>
+                    <option value="cartuchos de señales">Cartuchos de señales</option>
+                    <option value="vainas de cartuchos vacíos, con cebo">Vainas de cartuchos vacíos, con cebo</option>
+                    <option value="mecha detonante flexible">Mecha detonante flexible</option>
+                    <option value="detonadores para municiones">Detonadores para municiones</option>
+                    <option value="explosivos para voladuras, tipo a">Explosivos para voladuras, tipo A</option>
+                    <option value="explosivos para voladuras, tipo b">Explosivos para voladuras, tipo B</option>
+                    <option value="explosivos para voladuras, tipo c">Explosivos para voladuras, tipo C</option>
+                    <option value="bengalas aéreas">Bengalas aéreas</option>
+                    <option value="cohetes con carga explosiva">Cohetes con carga explosiva</option>
+                    <option value="espoletas detonantes">Espoletas detonantes</option>
+                    <option value="plaguicidas sólidos, n.e.p.">Plaguicidas sólidos, N.E.P.</option>
+                    <option value="plaguicidas líquidos, n.e.p.">Plaguicidas líquidos, N.E.P.</option>
+                    <option value="fertilizantes con nitrato de amonio">Fertilizantes con nitrato de amonio</option>
+                    <option value="productos químicos corrosivos">Productos químicos corrosivos</option>
+                    <option value="sustancias oxidantes, n.e.p.">Sustancias oxidantes, N.E.P.</option>
+                    <option value="líquidos inflamables, n.e.p.">Líquidos inflamables, N.E.P.</option>
+                    <option value="sólidos inflamables, n.e.p.">Sólidos inflamables, N.E.P.</option>
+                    <option value="gases comprimidos, n.e.p.">Gases comprimidos, N.E.P.</option>
+                    <option value="sustancias tóxicas, n.e.p.">Sustancias tóxicas, N.E.P.</option>
+                    <option value="materiales radiactivos">Materiales radiactivos</option>
+                    <option value="picrato amónico seco o humedecido con menos del 10%, en masa, de agua">Picrato amónico seco o humedecido con menos del 10%, en masa, de agua</option>
+                    <option value="cartuchos para armas, con carga explosiva">Cartuchos para armas, con carga explosiva</option>
+                    <option value="municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora">Municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas">Cartuchos de fogueo para armas, o cartuchos de fogueo para armas de pequeño calibre, o cartuchos sin carga para herramientas</option>
+                    <option value="municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora">Municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora">Municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="municiones tóxicas con carga dispersora, carga expulsora o carga propulsora">Municiones tóxicas con carga dispersora, carga expulsora o carga propulsora</option>
+                    <option value="pólvora negra (pólvora de cañón) en forma de granos o polvo">Pólvora negra (pólvora de cañón) en forma de granos o polvo</option>
+                    <option value="detonadores eléctricos para voladuras">Detonadores eléctricos para voladuras</option>
+                    <option value="bombas con carga explosiva">Bombas con carga explosiva</option>
+                    <option value="multiplicadores sin detonador">Multiplicadores sin detonador</option>
+                    <option value="cargas de demolición">Cargas de demolición</option>
+                    <option value="cartuchos de señales">Cartuchos de señales</option>
+                    <option value="vainas de cartuchos vacíos, con cebo">Vainas de cartuchos vacíos, con cebo</option>
+                    <option value="mecha detonante flexible">Mecha detonante flexible</option>
+                    <option value="detonadores para municiones">Detonadores para municiones</option>
+                    <option value="explosivos para voladuras, tipo a">Explosivos para voladuras, tipo A</option>
+                    <option value="explosivos para voladuras, tipo b">Explosivos para voladuras, tipo B</option>
+                    <option value="explosivos para voladuras, tipo c">Explosivos para voladuras, tipo C</option>
+                    <option value="bengalas aéreas">Bengalas aéreas</option>
+                    <option value="cohetes con carga explosiva">Cohetes con carga explosiva</option>
+                    <option value="espoletas detonantes">Espoletas detonantes</option>
+                    <option value="plaguicidas sólidos, n.e.p.">Plaguicidas sólidos, N.E.P.</option>
+                    <option value="plaguicidas líquidos, n.e.p.">Plaguicidas líquidos, N.E.P.</option>
+                    <option value="fertilizantes con nitrato de amonio">Fertilizantes con nitrato de amonio</option>
+                    <option value="productos químicos peligrosos, n.e.p.">Productos químicos peligrosos, N.E.P.</option>
+                    <option value="materiales explosivos desensibilizados">Materiales explosivos desensibilizados</option>
+                    <option value="residuos peligrosos industriales">Residuos peligrosos industriales</option>
+                    <option value="sustancias peligrosas para el medio ambiente">Sustancias peligrosas para el medio ambiente</option>
+                    <option value="desechos médicos de categoría a, que afectan a las personas, sólidos">Desechos médicos de categoría A, que afectan a las personas, sólidos</option>
+                    <option value="desechos médicos de categoría a, que afectan a los animales únicamente, sólidos">Desechos médicos de categoría A, que afectan a los animales únicamente, sólidos</option>
+                    <option value="polvo de dihidróxido de cobalto, que contenga no menos del 10% de partículas respirables">Polvo de dihidróxido de cobalto, que contenga no menos del 10% de partículas respirables</option>
+                    <option value="medicamento">Medicamento</option>
+                    <option value="precursores y químicos de uso dual">Precursores y químicos de uso dual</option>
+                    <option value="psicotrópicos y estupefacientes">Psicotrópicos y estupefacientes</option>
+                    <option value="sustancias tóxicas">Sustancias tóxicas</option>
+                    <option value="plaguicidas y fertilizantes">Plaguicidas y fertilizantes</option>
+                
+                </select>
+                
+<label>Tipo de Embalage:</label>
+            <select name="usoCfdi" required>
+                <option value="Bidones (Tambores) de Acero 1 de tapa no desmontable">Bidones (Tambores) de Acero 1 de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Acero 1 de tapa desmontable">Bidones (Tambores) de Acero 1 de tapa desmontable</option>
+                <option value="Bidones (Tambores) de Aluminio de tapa no desmontable">Bidones (Tambores) de Aluminio de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Aluminio de tapa desmontable">Bidones (Tambores) de Aluminio de tapa desmontable</option>
+                <option value="Bidones (Tambores) de Madera contrachapada">Bidones (Tambores) de Madera contrachapada</option>
+                <option value="Bidones (Tambores) de Cartón">Bidones (Tambores) de Cartón</option>
+                <option value="Bidones (Tambores) de Plástico de tapa no desmontable">Bidones (Tambores) de Plástico de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Plástico de tapa desmontable">Bidones (Tambores) de Plástico de tapa desmontable</option>
+                <option value="Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa no desmontable">Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa desmontable">Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa desmontable</option>
+                <option value="Jerricanes (Porrones) de Acero de tapa no desmontable">Jerricanes (Porrones) de Acero de tapa no desmontable</option>
+                <option value="Jerricanes (Porrones) de Acero de tapa desmontable">Jerricanes (Porrones) de Acero de tapa desmontable</option>
+                <option value="Jerricanes (Porrones) de Aluminio de tapa no desmontable">Jerricanes (Porrones) de Aluminio de tapa no desmontable</option>
+                <option value="Jerricanes (Porrones) de Aluminio de tapa desmontable">Jerricanes (Porrones) de Aluminio de tapa desmontable</option>
+                <option value="Jerricanes (Porrones) de Plástico de tapa no desmontable">Jerricanes (Porrones) de Plástico de tapa no desmontable</option>
+                <option value="Jerricanes (Porrones) de Plástico de tapa desmontable">Jerricanes (Porrones) de Plástico de tapa desmontable</option>
+                <option value="Cajas de Acero">Cajas de Acero</option>
+                <option value="Cajas de Aluminio">Cajas de Aluminio</option>
+                <option value="Cajas de Madera natural ordinaria">Cajas de Madera natural ordinaria</option>
+                <option value="Cajas de Madera natural de paredes a prueba de polvos (estancas a los pulverulentos)">Cajas de Madera natural de paredes a prueba de polvos (estancas a los pulverulentos)</option>
+                <option value="Cajas de Madera contrachapada">Cajas de Madera contrachapada</option>
+                <option value="Cajas de Madera reconstituida">Cajas de Madera reconstituida</option>
+                <option value="Cajas de Cartón">Cajas de Cartón</option>
+                <option value="Cajas de Plástico Expandido">Cajas de Plástico Expandido</option>
+                <option value="Cajas de Plástico Rígido">Cajas de Plástico Rígido</option>
+                <option value="Sacos (Bolsas) de Tejido de plástico sin forro ni revestimientos interiores">Sacos (Bolsas) de Tejido de plástico sin forro ni revestimientos interiores</option>
+                <option value="Sacos (Bolsas) de Tejido de plástico a prueba de polvos (estancos a los pulverulentos)">Sacos (Bolsas) de Tejido de plástico a prueba de polvos (estancos a los pulverulentos)</option>
+                <option value="Sacos (Bolsas) de Tejido de plástico resistente al agua">Sacos (Bolsas) de Tejido de plástico resistente al agua</option>
+                <option value="Sacos (Bolsas) de Película de plástico">Sacos (Bolsas) de Película de plástico</option>
+                <option value="Sacos (Bolsas) de Tela sin forro ni revestimientos interiores">Sacos (Bolsas) de Tela sin forro ni revestimientos interiores</option>
+                <option value="Sacos (Bolsas) de Tela a prueba de polvos (estancos a los pulverulentos)">Sacos (Bolsas) de Tela a prueba de polvos (estancos a los pulverulentos)</option>
+                <option value="Sacos (Bolsas) de Tela resistentes al agua">Sacos (Bolsas) de Tela resistentes al agua</option>
+                <option value="Sacos (Bolsas) de Papel de varias hojas">Sacos (Bolsas) de Papel de varias hojas</option>
+                <option value="Sacos (Bolsas) de Papel de varias hojas, resistentes al agua">Sacos (Bolsas) de Papel de varias hojas, resistentes al agua</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con bidón (tambor) de acero">Envases y embalajes compuestos de Recipiente de plástico, con bidón (tambor) de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de acero">Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) exterior de aluminio">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) exterior de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de aluminio">Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera">Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de madera contrachapada">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de madera contrachapada</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera contrachapada">Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera contrachapada</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de cartón">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una caja de cartón">Envases y embalajes compuestos de Recipiente de plástico, con una caja de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de plástico">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de plástico</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con caja de plástico rígido">Envases y embalajes compuestos de Recipiente de plástico, con caja de plástico rígido</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de acero">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de acero">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) exterior de aluminio">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) exterior de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de aluminio">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de madera">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de madera</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con bidón (tambor) de madera contrachapada">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con bidón (tambor) de madera contrachapada</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con canasta de mimbre">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con canasta de mimbre</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de cartón">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de cartón">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico expandido">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico expandido</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico rígido">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico rígido</option>
+                <option value="Bultos de Plástico">Bultos de Plástico</option>
+                <option value="Bultos de Tela">Bultos de Tela</option>
+                <option value="No aplica">No aplica</option>
+            </select>
+            <label>Fracción Arancelaria:</label>
+            <input type="text" name="fraccionArancelaria" required>
+
+            <label>Pedimento:</label>
+            <input type="text" name="pedimento" required>
+            <label>RFC del Importador:</label>
+            <input type="text" name="rfc del importador" required>
+                </div>
+                
+            </div>
+            <div class="form-section">
+                <div class="form-group">
+                    <label>Valor de la Mercancía:</label>
+                    <input type="number" name="valorMercancia" required>
+                    <label>Método de Pago:</label>
+                    <select name="metodoPago" id="metodoPago" required>
+                        <option value="" disabled selected>Selecciona un método de pago</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="tarjetaCredito">Tarjeta de Crédito</option>
+                        <option value="tarjetaDebito">Tarjeta de Débito</option>
+                        <option value="transferencia">Transferencia Electrónica</option>
+                        <option value="cheque">Cheque</option>
+                        <option value="monederoElectronico">Monedero Electrónico</option>
+                        <option value="dineroElectronico">Dinero Electrónico</option>
+                        <option value="valesDespensa">Vales de Despensa</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                    <div id="campoOtros" style="display: none;">
+                        <label>Especificar Método de Pago:</label>
+                        <input type="text" name="otrosMetodoPago" placeholder="Describe el método de pago">
+                    </div>
+                    
+                    <script>
+                        const metodoPagoSelect = document.getElementById("metodoPago");
+                        const campoOtros = document.getElementById("campoOtros");
+                    
+                        metodoPagoSelect.addEventListener("change", function() {
+                            if (metodoPagoSelect.value === "otros") {
+                                campoOtros.style.display = "block";
+                            } else {
+                                campoOtros.style.display = "none";
+                            }
+                        });
+                    </script>
+            <h3>Transporte</h3>
+            <label>Tipo de Transporte:</label>
+            <select name="tipoTransporte" required>
+        <option value="01">Autotransporte </option>
+        <option value="01">Transporte Federal</option>
+        <option value="02">Transporte Marítimo</option>
+        <option value="03">Transporte Aéreo</option>
+        <option value="04">Transporte Ferroviario</option>
+    </select>
+    <label>Número de permiso:</label>
+    <input type="text" name="N permiso" required>
+            <label>Permiso SCT:</label>
+            <select name="numPermisoSCT" required>
+                <option value="TPAF01 Autotransporte Federal de carga general.">TPAF01 Autotransporte Federal de carga general.</option>
+                <option value=" TPAF02 Transporte privado de carga.">TPAF02 Transporte privado de carga.</option>
+                <option value="TPAF03 Autotransporte Federal de Carga Especializada">TPAF03 Autotransporte Federal de Carga Especializada</option>
+                <option value="Autotransporte Federal de carga general">Autotransporte Federal de carga general</option>
+                <option value="Transporte privado de carga">Transporte privado de carga</option>
+                <option value="Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos">Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos</option>
+                <option value="Transporte de automóviles sin rodar en vehículo tipo góndola">Transporte de automóviles sin rodar en vehículo tipo góndola</option>
+                <option value="Transporte de carga de gran peso y/o volumen de hasta 90 toneladas">Transporte de carga de gran peso y/o volumen de hasta 90 toneladas</option>
+                <option value="Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas">Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas</option>
+                <option value="Transporte Privado de materiales y residuos peligrosos">Transporte Privado de materiales y residuos peligrosos</option>
+                <option value="Autotransporte internacional de carga de largo recorrido">Autotransporte internacional de carga de largo recorrido</option>
+                <option value="Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido">Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido</option>
+                <option value="Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos">Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos</option>
+                <option value="Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos">Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos</option>
+                <option value="Servicio auxiliar de arrastre en las vías generales de comunicación">Servicio auxiliar de arrastre en las vías generales de comunicación</option>
+                <option value="Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación">Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación</option>
+                <option value="Servicio de paquetería y mensajería en las vías generales de comunicación">Servicio de paquetería y mensajería en las vías generales de comunicación</option>
+                <option value="Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas">Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas</option>
+                <option value="Servicio federal para empresas arrendadoras servicio público federal">Servicio federal para empresas arrendadoras servicio público federal</option>
+                <option value="Empresas trasladistas de vehículos nuevos">Empresas trasladistas de vehículos nuevos</option>
+                <option value="Empresas fabricantes o distribuidoras de vehículos nuevos">Empresas fabricantes o distribuidoras de vehículos nuevos</option>
+                <option value="Autorización expresa para circular en los caminos y puentes de jurisdicción federal con configuraciones de tractocamión doblemente articulado">Autorización expresa para circular en los caminos y puentes de jurisdicción federal con configuraciones de tractocamión doblemente articulado</option>
+                <option value="Autotransporte Federal de Carga Especializada de fondos y valores">Autotransporte Federal de Carga Especializada de fondos y valores</option>
+                <option value="Permiso temporal para navegación de cabotaje">Permiso temporal para navegación de cabotaje</option>
+                <option value="Concesión y/o autorización para el servicio regular nacional y/o internacional para empresas mexicanas">Concesión y/o autorización para el servicio regular nacional y/o internacional para empresas mexicanas</option>
+                <option value="Permiso para el servicio aéreo regular de empresas extranjeras">Permiso para el servicio aéreo regular de empresas extranjeras</option>
+                <option value="Permiso para el servicio nacional e internacional no regular de fletamento">Permiso para el servicio nacional e internacional no regular de fletamento</option>
+                <option value="Permiso para el servicio nacional e internacional no regular de taxi aéreo">Permiso para el servicio nacional e internacional no regular de taxi aéreo</option>
+                <option value="Permiso no contemplado en el catálogo">Permiso no contemplado en el catálogo</option>
+    </select>
+            <label>Configuración Vehicular:</label>
+            <select name="configVehicular" required>
+        <option value="C2">Camión Unitario (2 llantas en el eje
+            delantero y 4 llantas en el eje trasero)</option>
+        <option value="C2R2">Camión-Remolque (6 llantas en el
+            camión y 8 llantas en remolque)</option>
+        <option value="C3R2">Camión-Remolque (Mayor capacidad) (10 llantas en el
+            camión y 8 llantas en remolque)
+            </option>
+    </select>
+    <label>Peso Bruto Vehícular:</label>
+    <input type="text" name="pib" required>
+
+            <label>Placa del Vehículo:</label>
+            <input type="text" name="placaVehiculo" required>
+                    </div></div>
+                    
+            <div class="form-section">
+          <div class="form-group">
+            <h3>Operador</h3>
+            <label>Nombre:</label>
+            <input type="text" name="nombreOperador" required>
+
+            <label>RFC:</label>
+            <input type="text" name="rfcOperador" required>
+          </div></div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <h3>Dirección</h3>
+                        <form>
+                            <label for="pais">País:</label>
+                            <select id="pais" name="pais" onchange="limpiarCampos()">
+                                <option value="MX">México</option>
+                                <option value="US">Estados Unidos</option>
+                            </select>
+                            <br><br>
+                    
+                            <label for="codigo_postal">Código Postal:</label>
+                            <input type="text" id="codigo_postal" name="codigo_postal" maxlength="5" required oninput="buscarCP()">
+                            <br><br>
+                    
+                            <label for="estado">Estado:</label>
+                            <input type="text" id="estado" name="estado" readonly>
+                            <br><br>
+                    
+                            <label for="municipio">Municipio:</label>
+                            <input type="text" id="municipio" name="municipio" readonly>
+                            <br><br>
+                    
+                            <label for="localidad">Localidad:</label>
+                            <input type="text" id="localidad" name="localidad">
+                            <br><br>
+                    
+                            <label for="calle">Calle:</label>
+                            <input type="text" id="calle" name="calle">
+                            <br><br>
+                    
+                            <label for="numero_exterior">Número Exterior:</label>
+                            <input type="text" id="numero_exterior" name="numero_exterior">
+                            <br><br>
+                    
+                        <script>
+                            async function buscarCP() {
+                                const cp = document.getElementById("codigo_postal").value;
+                                const pais = document.getElementById("pais").value;
+                    
+                                if (cp.length === 5) {
+                                    try {
+                                        if (pais === "MX") {
+                                    const token = 'fb554bc4-b5e0-4f18-bc4a-130cab156ef3';
+                                    const respuesta = await fetch(`https://api.copomex.com/query/info_cp/${cp}?type=simplified&token=${token}`);
+                                    const datos = await respuesta.json();
+                                    if (!datos.error) {
+                                        document.getElementById("estado").value = datos.response.estado;
+                                        document.getElementById("municipio").value = datos.response.municipio;
+                                    } else {
+                                        limpiarCampos();
+                                        alert("Código postal no encontrado.");
+                                    }
+                                } else if (pais === "US") {
+                                    const respuesta = await fetch(`https://api.zippopotam.us/us/${cp}`);
+                                    const datos = await respuesta.json();
+                                    if (datos.places) {
+                                        document.getElementById("estado").value = datos.places[0]["state"];
+                                        document.getElementById("municipio").value = datos.places[0]["place name"];
+                                    } else {
+                                        limpiarCampos();
+                                        alert("Código postal no encontrado.");
+                                    }
+                                }
+                            } catch (error) {
+                                console.error("Error al obtener datos:", error);
+                                limpiarCampos();
+                                alert("Error al obtener datos.");
+                            }
+                        }
+                    }
+            
+                    function limpiarCampos() {
+                        document.getElementById("estado").value = "";
+                        document.getElementById("municipio").value = "";
+                    }
+                </script>
+
+<div class="form-section">
+    <div class="form-group">
+        <h3>Remolque</h3>
+        <form>
+            
+    
+            <label for="figuratransporte">Figura del Transporte:</label>
+                            <input type="text" id="figuratransporte" name="figuratransporte" readonly>
+                            <label for="Clavetransporte">Clave del Transporte:</label>
+                          <input type="text" id="clavetransporte" name="clavetransporte" readonly>
+                          <label for="Partestransporte">Partes del Transporte:</label>
+                          <input type="text" id="Partestransporte" name="Partestransporte" readonly>
+            
+            
+            
+                        </div></div>
+           
+            
+            <button type="submit">Guardar Carta Porte</button>
+           
+    </div>
+</form>
+<footer>
+    <img id="logopie" src="img/LOGO_CENCA-removebg-preview.png"><img>
+  
+    © 2025 - Software de certificados y documentos oficiales CERTICENC V0.1
+  
+  Teléfonos: +52 00 00 00 00 00 / +52 00 00 00 00 00
+  Lunes a viernes de 9am a 6pm
+  </footer>
+               
+            
+        </form>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const largoInput = document.querySelector('input[name="largo"]');
+        const anchoInput = document.querySelector('input[name="ancho"]');
+        const altoInput = document.querySelector('input[name="alto"]');
+        const volumenInput = document.querySelector('input[name="volumen"]');
+    
+        function calcularVolumen() {
+            const largo = parseFloat(largoInput.value) || 0;
+            const ancho = parseFloat(anchoInput.value) || 0;
+            const alto = parseFloat(altoInput.value) || 0;
+            const volumen = largo * ancho * alto;
+            volumenInput.value = volumen.toFixed(2);
+        }
+    
+        largoInput.addEventListener("input", calcularVolumen);
+        anchoInput.addEventListener("input", calcularVolumen);
+        altoInput.addEventListener("input", calcularVolumen);
+    });
+    </script>
+</html>

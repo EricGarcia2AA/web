@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<header>
+    <img id="logopie" src="img/LOGO_CENCA-removebg-preview.png">
+</header>
+<body>
+    <div class="container">
+        <h1> Datos</h1>
+
+        <form action="generar_pdf.php" method="POST">
+            <div class="form-section">
+                <div class="form-group">
+                    <h2>Datos Fiscales</h2>
+                    <label>Versión:</label>
+                    <input type="text" name="version" value="3.3" required>
+
+                    <label>Tipo de Comprobante:</label>
+                    <select name="tipoComprobante" required>
+                        <option value="I">Ingreso</option>
+                        <option value="T">Traslado</option>
+                    </select>
+
+                    <label>Uso de CFDI:</label>
+                    <select name="usoCfdi" required>
+                        <option value="P01">Por definir</option>
+                    <option value="Definitivo de importación">Definitivo de importación</option>
+                    <option value="Definitivo de exportación">Definitivo de exportación</option>
+        <option value="Temporales de importación para retomar al extranjero en el mismo estado">Temporales de importación para retomar al extranjero en el mismo estado</option>
+        <option value="Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX">Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX</option>
+        <option value="Temporales de exportación para retornar al país en el mismo estado">Temporales de exportación para retornar al país en el mismo estado</option>
+        <option value="Temporales de exportación para elaboración, transformación o reparación">Temporales de exportación para elaboración, transformación o reparación</option>
+        <option value="Depósito Fiscal">Depósito Fiscal</option>
+        <option value="Elaboración, transformación o reparación en recinto fiscalizado">Elaboración, transformación o reparación en recinto fiscalizado</option>
+        <option value="Recinto fiscalizado estratégico">Recinto fiscalizado estratégico</option>
+        <option value="Tránsitos">Tránsitos</option>
+                    </select>
+
+                    <label>Tipo de Relación:</label>
+                    <select name="tipoRelacion" required>
+                        <option value="05">Traslados de mercancías facturadas previamente</option>
+            <option value="06">De Intercambio</option>
+            <option value="06">De Donación</option>
+            <option value="06">Reciprocidad</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Receptor</h3>
+                    <label>RFC:</label>
+                    <input type="text" name="rfcReceptor" required>
+
+                    <label>Razón Social:</label>
+                    <input type="text" name="razonSocialReceptor" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Ubicaciones</h3>
+                    <label>ID Origen:</label>
+                    <input type="text" name="idOrigen" required>
+
+                    <label>RFC Remitente:</label>
+                    <input type="text" name="rfcRemitente" required>
+
+                    <label>Nombre Remitente:</label>
+                    <input type="text" name="nombreRemitente" required>
+
+                    <label>Fecha de Salida:</label>
+                    <input type="datetime-local" name="fechaSalida" required>
+
+                    <label>ID Destino:</label>
+                    <input type="text" name="idDestino" required>
+
+                    <label>RFC Destinatario:</label>
+                    <input type="text" name="rfcDestinatario" required>
+
+                    <label>Fecha de Llegada:</label>
+                    <input type="datetime-local" name="fechaLlegada" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Mercancías</h3>
+                    <label>Tipo de Mercancía:</label>
+                    <select name="tipoMercancia" required>
+                        <option value="no_existe_en_catalogo">No existe en el catálogo</option>
+                        <option value="animales_vivos_de_granja">Animales vivos de granja</option>
+                        <option value="caballos">Caballos</option>
+                        <option value="ovejas">Ovejas</option>
+                        <option value="peces_vivos">Peces vivos</option>
+                        <option value="alimento_perros_gatos">Alimento para perros y gatos</option>
+                    </select>
+                    <label>Descripción:</label>
+                    <input type="text" name="descripcionMercancia" required>
+                    <label>Cantidad:</label>
+            <input type="number" name="cantidad" required>
+            <label>Dimensiones:</label>
+            <select name="dimensiones" required>                                                                                                                                                           <option value="Gramo">Gramo</option>
+<option value="Centigramo">Centigramo</option>
+<option value="Tonelada (tonelada métrica)">Tonelada (tonelada métrica)</option>
+<option value="Decitonelada métrica">Decitonelada métrica</option>
+<option value="Miligramo">Miligramo</option>
+<option value="Hectogramo">Hectogramo</option>
+<option value="Kilotonelada Métrica">Kilotonelada Métrica</option>
+<option value="Megagramo">Megagramo</option>
+<option value="Libra">Libra</option>
+<option value="Grano">Grano</option>
+<option value="Onza (avoirdupois)">Onza (avoirdupois)</option>
+<option value="Hundredweight">Hundredweight</option>
+<option value="Hundred pound">Hundred pound</option>
+<option value="Tonelada (UK) o tonelada larga (estados unidos)">Tonelada (UK) o tonelada larga (estados unidos)</option>
+<option value="Estone (UK)">Estone (UK)</option>
+<option value="Tonelada (estados unidos) o tonelada corta (UK y estados unidos)">Tonelada (estados unidos) o tonelada corta (UK y estados unidos)</option>
+<option value="Onza troy u onza farmacéutica">Onza troy u onza farmacéutica</option>
+<option value="Slug">Slug</option>
+<option value="Libra (avoirdupois) por grado fahrenheit">Libra (avoirdupois) por grado fahrenheit</option>
+<option value="Tonelada por kelvin">Tonelada por kelvin</option>
+<option value="Tonelada corta por grado fahrenheit">Tonelada corta por grado fahrenheit</option>
+<option value="Tonelada, ensayo">Tonelada, ensayo</option>
+<option value="Libra Alemana">Libra Alemana</option>
+<option value="Microgramo por kilogramo">Microgramo por kilogramo</option>
+<option value="Nanogramo por kilogramo">Nanogramo por kilogramo</option>
+<option value="Miligramo por kilogramo">Miligramo por kilogramo</option>
+<option value="Kilogramo por kilogramo">Kilogramo por kilogramo</option>
+<option value="Libra por libra">Libra por libra</option>
+<option value="Microgramo por hectogramo">Microgramo por hectogramo</option>
+<option value="Metro cúbico">Metro cúbico</option>
+<option value="Megalitro">Megalitro</option>
+<option value="Litro">Litro</option>
+<option value="Milímetro cúbico">Milímetro cúbico</option>
+<option value="Centímetro cúbico">Centímetro cúbico</option>
+<option value="Decímetro cúbico">Decímetro cúbico</option>
+<option value="Mililitro">Mililitro</option>
+<option value="Hectolitro">Hectolitro</option>
+<option value="Centilitro">Centilitro</option>
+<option value="Decámetro cúbico">Decámetro cúbico</option>
+<option value="Hectómetro cúbico">Hectómetro cúbico</option>
+<option value="Kilómetro cúbico">Kilómetro cúbico</option>
+<option value="Metro cúbico por pascal (joules)">Metro cúbico por pascal (joules)</option>
+<option value="Decilitro">Decilitro</option>
+<option value="Microlitro">Microlitro</option>
+<option value="Kilolitro">Kilolitro</option>
+<option value="Decalitro">Decalitro</option>
+<option value="Centímetro cúbico por bar">Centímetro cúbico por bar</option>
+<option value="Litro por bar">Litro por bar</option>
+<option value="Metro cúbico por bar">Metro cúbico por bar</option>
+<option value="Mililitro por bar">Mililitro por bar</option>
+<option value="Pies cúbicos estándar">Pies cúbicos estándar</option>
+<option value="Pulgada cúbica">Pulgada cúbica</option>
+<option value="Pie cúbico">Pie cúbico</option>
+<option value="Yarda cúbica">Yarda cúbica</option>
+<option value="Galón (UK)">Galón (UK)</option>
+<option value="Galón (EUA)">Galón (EUA)</option>
+<option value="Pinta (US)">Pinta (US)</option>
+<option value="Pint (uk)">Pint (uk)</option>
+<option value="Cuarto (UK)">Cuarto (UK)</option>
+<option value="Pinta líquida (estados unidos)">Pinta líquida (estados unidos)</option>
+<option value="Cuarto de líquido (estadis unidos)">Cuarto de líquido (estadis unidos)</option>
+<option value="Pinta seca (estados unidos)">Pinta seca (estados unidos)</option>
+<option value="Onza líquida (UK)">Onza líquida (UK)</option>
+<option value="Cuarto (EUA)">Cuarto (EUA)</option>
+<option value="Barril (uk petróleo)">Barril (uk petróleo)</option>
+<option value="Pie cúbico por grado fahrenheit">Pie cúbico por grado fahrenheit</option>
+<option value="Pie cúbico por psi (libra por pulgada cuadrada)">Pie cúbico por psi (libra por pulgada cuadrada)</option>
+<option value="Peck (UK)">Peck (UK)</option>
+<option value="Pinta (US seco)">Pinta (US seco)</option>
+<option value="Cuarto de galón (seco de los EUA)">Cuarto de galón (seco de los EUA)</option>
+<option value="Tonelada (flota UK)">Tonelada (flota UK)</option>
+<option value="Tonelada (flota estados unidos)">Tonelada (flota estados unidos)</option>
+<option value="Yarda cúbica por grado fahrenheit">Yarda cúbica por grado fahrenheit</option>
+<option value="Yarda cúbica por psi (libra por pulgada cuadrada)">Yarda cúbica por psi (libra por pulgada cuadrada)</option>
+<option value="Onza líquida (estados unidos)">Onza líquida (estados unidos)</option>
+<option value="Bushel (UK)">Bushel (UK)</option>
+<option value="Bushel (EUA)">Bushel (EUA)</option>
+<option value="Barril (EUA)">Barril (EUA)</option>
+<option value="Barril seco (EUA)">Barril seco (EUA)</option>
+<option value="Galón seco (EUA)">Galón seco (EUA)</option>
+<option value="Cuarto seco (estados unidos)">Cuarto seco (estados unidos)</option>
+<option value="Estere">Estere</option>
+<option value="Taza (unidad de volumen)">Taza (unidad de volumen)</option>
+<option value="Cucharada (estados unidos)">Cucharada (estados unidos)</option>
+<option value="Cucharilla (estados unidos)">Cucharilla (estados unidos)</option>
+<option value="Peck">Peck</option>
+<option value="Acre-pie">Acre-pie</option>
+<option value="Cordón">Cordón</option>
+<option value="Milla cúbica (reino unido)">Milla cúbica (reino unido)</option>
+<option value="Unidad tradicional de capacidad de carga">Unidad tradicional de capacidad de carga</option>
+<option value="Femtolitro">Femtolitro</option>
+<option value="Picolitro">Picolitro</option>
+<option value="Nanolitro">Nanolitro</option>
+<option value="Metro cúbico normalizado">Metro cúbico normalizado</option>
+<option value="Metro cúbico estándar">Metro cúbico estándar</option>
+            </select>
+            <label>Peso en Kg:</label>
+            <input type="number" name="pesoKg" required>
+
+            <label>Valor de la Mercancía:</label>
+            <input type="number" name="valorMercancia" required>
+
+            <label>Material:</label>
+            <select name="usoCfdi" required>
+                <option value="Contenedor externo">Contenedor externo</option>
+<option value="Tambor de acero">Tambor de acero</option>
+<option value="Tambor de aluminio">Tambor de aluminio</option>
+<option value="Tambor contrachapado">Tambor contrachapado</option>
+<option value="Contenedor flexible">Contenedor flexible</option>
+<option value="Tambor de fibra">Tambor de fibra</option>   </select>
+<label>Descripción de Embalage:</label>
+<select name="usoCfdi" required>
+    <option value="Tipo de caja de contención que sirve como contenedor de transporte externo, no especificado como equipo de transporte.">Tipo de caja de contención que sirve como contenedor de transporte externo, no especificado como equipo de transporte.</option>
+    <option value="Contenedor de empaque de construcción flexible.">Contenedor de empaque de construcción flexible.</option>
+    <option value="Bolsa de tela de plástico o de papel que tiene las dimensiones del pallet sobre el que está construido.">Bolsa de tela de plástico o de papel que tiene las dimensiones del pallet sobre el que está construido.</option>
+    <option value="Un tipo de bolsa de plástico, normalmente utilizada para envolver piezas promocionales, publicaciones, muestras de productos y / o catálogos.">Un tipo de bolsa de plástico, normalmente utilizada para envolver piezas promocionales, publicaciones, muestras de productos y / o catálogos.</option>
+    <option value="Tipo de contenedor portátil diseñado para almacenar equipo para el transporte en un automóvil.">Tipo de contenedor portátil diseñado para almacenar equipo para el transporte en un automóvil.</option>
+    <option value="Un estuche de madera para retener sustancias o artículos.">Un estuche de madera para retener sustancias o artículos.</option>
+    <option value="Plataforma o caja abierta de madera, en la que se conservan las mercancías para facilitar su manejo mecánico durante el transporte y almacenamiento.">Plataforma o caja abierta de madera, en la que se conservan las mercancías para facilitar su manejo mecánico durante el transporte y almacenamiento.</option>
+    <option value="Un contenedor de madera, en el que se conservan las mercancías para facilitar su manipulación mecánica durante el transporte y almacenamiento.">Un contenedor de madera, en el que se conservan las mercancías para facilitar su manipulación mecánica durante el transporte y almacenamiento.</option>
+    <option value="Piezas sueltas o sin contenedor de madera atadas o envueltas.">Piezas sueltas o sin contenedor de madera atadas o envueltas.</option>
+    <option value="Recipiente de contención de fibra, utilizado para retener sustancias o artículos.">Recipiente de contención de fibra, utilizado para retener sustancias o artículos.</option>
+    <option value="Recipiente de contención de papel, para retener sustancias o artículos.">Recipiente de contención de papel, para retener sustancias o artículos.</option>
+    <option value="Recipiente de contención de madera, para retener sustancias o artículos.">Recipiente de contención de madera, para retener sustancias o artículos.</option>
+    <option value="Una unidad de cuenta que define el número de Aerosoles.">Una unidad de cuenta que define el número de Aerosoles.</option>
+    <option value="Pallet de tamaño estándar con dimensiones de 80 centímetros por 60 centímetros (cms).">Pallet de tamaño estándar con dimensiones de 80 centímetros por 60 centímetros (cms).</option>
+    <option value="La carga del pallet se asegura con una película de plástico transparente envuelta alrededor y luego encogido firmemente.">La carga del pallet se asegura con una película de plástico transparente envuelta alrededor y luego encogido firmemente.</option>
+    <option value="Pallet tamaño estándar con dimensiones de 100 centímetros por 110 centímetros (cms).">Pallet tamaño estándar con dimensiones de 100 centímetros por 110 centímetros (cms).</option>
+    <option value="Contenedor utilizado en el transporte de material lineal como el hilo.">Contenedor utilizado en el transporte de material lineal como el hilo.</option>
+    <option value="Recipiente de contención esférico para retener sustancias o artículos.">Recipiente de contención esférico para retener sustancias o artículos.</option>
+    <option value="Banda utiliza para retener varios artículos juntos.">Banda utiliza para retener varios artículos juntos.</option>
+    <option value="Recipiente de material flexible con tapa abierta o cerrada.">Recipiente de material flexible con tapa abierta o cerrada.</option>
+    <option value="Recipiente de forma cilíndrica de cuello estrecho sin material de empaque protector externo.">Recipiente de forma cilíndrica de cuello estrecho sin material de empaque protector externo.</option>
+    <option value="Recipiente de forma cilíndrica de cuello estrecho con material de empaque protector externo.">Recipiente de forma cilíndrica de cuello estrecho con material de empaque protector externo.</option>
+    <option value="Recipiente en forma de bulbo de cuello estrecho sin material de empaque protector externo.">Recipiente en forma de bulbo de cuello estrecho sin material de empaque protector externo.</option>
+    <option value="Barril de 1/2 tonel.">Barril de 1/2 tonel.</option>
+    <option value="Recipiente en forma de bulbo de cuello estrecho con material de empaque protector externo.">Recipiente en forma de bulbo de cuello estrecho con material de empaque protector externo.</option>
+    <option value="Paquete plano normalmente hecho de cartón desde / hacia el cual el producto es a menudo colgado o unido.">Paquete plano normalmente hecho de cartón desde / hacia el cual el producto es a menudo colgado o unido.</option>
+    <option value="Paquete que contiene una carga tal como un explosivo propulsor para armas de fuego o tóner de tinta para una impresora.">Paquete que contiene una carga tal como un explosivo propulsor para armas de fuego o tóner de tinta para una impresora.</option>
+    <option value="Caja montada sobre una base de pallet Según la clasificación de la compañía (CHEP).">Caja montada sobre una base de pallet Según la clasificación de la compañía (CHEP).</option>
+    <option value="Bolsa de contención flexible hecha de plástico, usado típicamente para el transporte de mercancías no peligrosas a granel, que usan contenedores de transporte de tamaño estándar.">Bolsa de contención flexible hecha de plástico, usado típicamente para el transporte de mercancías no peligrosas a granel, que usan contenedores de transporte de tamaño estándar.</option>
+    <option value="Contenedor flexible de plástico, usado típicamente para el transporte de cargas no peligrosas a granel usando contenedores de transporte de tamaño estándar.">Contenedor flexible de plástico, usado típicamente para el transporte de cargas no peligrosas a granel usando contenedores de transporte de tamaño estándar.</option>
+    <option value="Barril de 41 litros.">Barril de 41 litros.</option>
+    <option value="Módulo con ruedas en el que las bandejas u otros artículos de forma regular se empacan para fines de transporte.">Módulo con ruedas en el que las bandejas u otros artículos de forma regular se empacan para fines de transporte.</option>
+    <option value="Cilindro metálico de cuello estrecho para la retención de gas licuado o comprimido.">Cilindro metálico de cuello estrecho para la retención de gas licuado o comprimido.</option>
+    <option value="Contenedor con una capacidad de un galón.">Contenedor con una capacidad de un galón.</option>
+    <option value="Recipiente de contención de vidrio para retener sustancias o artículos.">Recipiente de contención de vidrio para retener sustancias o artículos.</option>
+    <option value="Bandeja para contiene objetos planos apilados uno encima del otro.">Bandeja para contiene objetos planos apilados uno encima del otro.</option>
+    <option value="Hecho de yute, usado para transportar mercancías gruesas, tales como granos, patatas, y otros productos agrícolas.">Hecho de yute, usado para transportar mercancías gruesas, tales como granos, patatas, y otros productos agrícolas.</option>
+    <option value="Barril de 1/4 de tonel.">Barril de 1/4 de tonel.</option>
+    <option value="Artefacto, cuya forma con un gancho en la parte superior, tiene el propósito de colgar artículos de un carril.">Artefacto, cuya forma con un gancho en la parte superior, tiene el propósito de colgar artículos de un carril.</option>
+    <option value="Envase flexible tubular o de piel, posiblemente transparente, a menudo utilizado para contener alimentos (por ejemplo salami).">Envase flexible tubular o de piel, posiblemente transparente, a menudo utilizado para contener alimentos (por ejemplo salami).</option>
+    <option value="Material de empaque realizado en cartón que facilita la separación de botellas individuales de vidrio o plástico.">Material de empaque realizado en cartón que facilita la separación de botellas individuales de vidrio o plástico.</option>
+    <option value="Bandeja rígida apilable empotrada compatible con CEN TS 14482: 2002.">Bandeja rígida apilable empotrada compatible con CEN TS 14482: 2002.</option>
+    <option value="Bolsa de contención flexible, ampliamente utilizada para almacenamiento, transporte y manipulación de materiales en polvo, escamas o granulares. Típicamente construido a partir de tejido de polipropileno (PP) tejido en forma de bolsas cúbicas.">Bolsa de contención flexible, ampliamente utilizada para almacenamiento, transporte y manipulación de materiales en polvo, escamas o granulares. Típicamente construido a partir de tejido de polipropileno (PP) tejido en forma de bolsas cúbicas.</option>
+    <option value="Conjunto de artículos o implementos utilizados para un propósito específico.">Conjunto de artículos o implementos utilizados para un propósito específico.</option>
+    <option value="Colección de bolsas, cajas y / o contenedores que contienen objetos personales para un viaje.">Colección de bolsas, cajas y / o contenedores que contienen objetos personales para un viaje.</option>
+    <option value="Caja de madera para el transporte y almacenamiento de frutas y verduras.">Caja de madera para el transporte y almacenamiento de frutas y verduras.</option>
+    <option value="Contenedor de madera o metal, usado para empacar artículos de uso doméstico y personales.">Contenedor de madera o metal, usado para empacar artículos de uso doméstico y personales.</option>
+    <option value="Caja de contención hecha de metal para retener sustancias o artículos.">Caja de contención hecha de metal para retener sustancias o artículos.</option>
+    <option value="Tipo de caja de contención hecha de metal para retener sustancias o artículos, no especificado de otro modo como equipo de transporte.">Tipo de caja de contención hecha de metal para retener sustancias o artículos, no especificado de otro modo como equipo de transporte.</option>
+    <option value="Recipiente de contención de metal para retener sustancias o artículos.">Recipiente de contención de metal para retener sustancias o artículos.</option>
+    <option value="Recipiente de contención envuelto en plástico para retener sustancias o artículos.">Recipiente de contención envuelto en plástico para retener sustancias o artículos.</option>
+
+</select>
+<label>Tipo de Embalage:</label>
+            <select name="usoCfdi" required>
+                <option value="Bidones (Tambores) de Acero 1 de tapa no desmontable">Bidones (Tambores) de Acero 1 de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Acero 1 de tapa desmontable">Bidones (Tambores) de Acero 1 de tapa desmontable</option>
+                <option value="Bidones (Tambores) de Aluminio de tapa no desmontable">Bidones (Tambores) de Aluminio de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Aluminio de tapa desmontable">Bidones (Tambores) de Aluminio de tapa desmontable</option>
+                <option value="Bidones (Tambores) de Madera contrachapada">Bidones (Tambores) de Madera contrachapada</option>
+                <option value="Bidones (Tambores) de Cartón">Bidones (Tambores) de Cartón</option>
+                <option value="Bidones (Tambores) de Plástico de tapa no desmontable">Bidones (Tambores) de Plástico de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Plástico de tapa desmontable">Bidones (Tambores) de Plástico de tapa desmontable</option>
+                <option value="Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa no desmontable">Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa no desmontable</option>
+                <option value="Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa desmontable">Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa desmontable</option>
+                <option value="Jerricanes (Porrones) de Acero de tapa no desmontable">Jerricanes (Porrones) de Acero de tapa no desmontable</option>
+                <option value="Jerricanes (Porrones) de Acero de tapa desmontable">Jerricanes (Porrones) de Acero de tapa desmontable</option>
+                <option value="Jerricanes (Porrones) de Aluminio de tapa no desmontable">Jerricanes (Porrones) de Aluminio de tapa no desmontable</option>
+                <option value="Jerricanes (Porrones) de Aluminio de tapa desmontable">Jerricanes (Porrones) de Aluminio de tapa desmontable</option>
+                <option value="Jerricanes (Porrones) de Plástico de tapa no desmontable">Jerricanes (Porrones) de Plástico de tapa no desmontable</option>
+                <option value="Jerricanes (Porrones) de Plástico de tapa desmontable">Jerricanes (Porrones) de Plástico de tapa desmontable</option>
+                <option value="Cajas de Acero">Cajas de Acero</option>
+                <option value="Cajas de Aluminio">Cajas de Aluminio</option>
+                <option value="Cajas de Madera natural ordinaria">Cajas de Madera natural ordinaria</option>
+                <option value="Cajas de Madera natural de paredes a prueba de polvos (estancas a los pulverulentos)">Cajas de Madera natural de paredes a prueba de polvos (estancas a los pulverulentos)</option>
+                <option value="Cajas de Madera contrachapada">Cajas de Madera contrachapada</option>
+                <option value="Cajas de Madera reconstituida">Cajas de Madera reconstituida</option>
+                <option value="Cajas de Cartón">Cajas de Cartón</option>
+                <option value="Cajas de Plástico Expandido">Cajas de Plástico Expandido</option>
+                <option value="Cajas de Plástico Rígido">Cajas de Plástico Rígido</option>
+                <option value="Sacos (Bolsas) de Tejido de plástico sin forro ni revestimientos interiores">Sacos (Bolsas) de Tejido de plástico sin forro ni revestimientos interiores</option>
+                <option value="Sacos (Bolsas) de Tejido de plástico a prueba de polvos (estancos a los pulverulentos)">Sacos (Bolsas) de Tejido de plástico a prueba de polvos (estancos a los pulverulentos)</option>
+                <option value="Sacos (Bolsas) de Tejido de plástico resistente al agua">Sacos (Bolsas) de Tejido de plástico resistente al agua</option>
+                <option value="Sacos (Bolsas) de Película de plástico">Sacos (Bolsas) de Película de plástico</option>
+                <option value="Sacos (Bolsas) de Tela sin forro ni revestimientos interiores">Sacos (Bolsas) de Tela sin forro ni revestimientos interiores</option>
+                <option value="Sacos (Bolsas) de Tela a prueba de polvos (estancos a los pulverulentos)">Sacos (Bolsas) de Tela a prueba de polvos (estancos a los pulverulentos)</option>
+                <option value="Sacos (Bolsas) de Tela resistentes al agua">Sacos (Bolsas) de Tela resistentes al agua</option>
+                <option value="Sacos (Bolsas) de Papel de varias hojas">Sacos (Bolsas) de Papel de varias hojas</option>
+                <option value="Sacos (Bolsas) de Papel de varias hojas, resistentes al agua">Sacos (Bolsas) de Papel de varias hojas, resistentes al agua</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con bidón (tambor) de acero">Envases y embalajes compuestos de Recipiente de plástico, con bidón (tambor) de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de acero">Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) exterior de aluminio">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) exterior de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de aluminio">Envases y embalajes compuestos de Recipiente de plástico, con una jaula o caja de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera">Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de madera contrachapada">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de madera contrachapada</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera contrachapada">Envases y embalajes compuestos de Recipiente de plástico, con una caja de madera contrachapada</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de cartón">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con una caja de cartón">Envases y embalajes compuestos de Recipiente de plástico, con una caja de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de plástico">Envases y embalajes compuestos de Recipiente de plástico, con un bidón (tambor) de plástico</option>
+                <option value="Envases y embalajes compuestos de Recipiente de plástico, con caja de plástico rígido">Envases y embalajes compuestos de Recipiente de plástico, con caja de plástico rígido</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de acero">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de acero">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de acero</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) exterior de aluminio">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) exterior de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de aluminio">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una jaula o una caja de aluminio</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de madera">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de madera</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con bidón (tambor) de madera contrachapada">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con bidón (tambor) de madera contrachapada</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con canasta de mimbre">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con canasta de mimbre</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de cartón">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un bidón (tambor) de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de cartón">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con una caja de cartón</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico expandido">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico expandido</option>
+                <option value="Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico rígido">Envases y embalajes compuestos de Recipiente de vidrio, porcelana o de gres, con un envase y embalaje de plástico rígido</option>
+                <option value="Bultos de Plástico">Bultos de Plástico</option>
+                <option value="Bultos de Tela">Bultos de Tela</option>
+                <option value="No aplica">No aplica</option>
+            </select>
+            <label>Fracción Arancelaria:</label>
+            <input type="text" name="fraccionArancelaria" required>
+
+            <label>Pedimento:</label>
+            <input type="text" name="pedimento" required>
+                </div>
+            </div>
+            <div class="form-section">
+                <div class="form-group">
+            <h3>Transporte</h3>
+            <label>Tipo de Transporte:</label>
+            <select name="tipoTransporte" required>
+        <option value="01">Autotransporte </option>
+        <option value="01">Transporte Federal</option>
+        <option value="02">Transporte Marítimo</option>
+        <option value="03">Transporte Aéreo</option>
+        <option value="04">Transporte Ferroviario</option>
+    </select>
+
+            <label>Permiso SCT:</label>
+            <select name="numPermisoSCT" required>
+                <option value="Autotransporte Federal de carga general">Autotransporte Federal de carga general</option>
+                <option value="Transporte privado de carga">Transporte privado de carga</option>
+                <option value="Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos">Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos</option>
+                <option value="Transporte de automóviles sin rodar en vehículo tipo góndola">Transporte de automóviles sin rodar en vehículo tipo góndola</option>
+                <option value="Transporte de carga de gran peso y/o volumen de hasta 90 toneladas">Transporte de carga de gran peso y/o volumen de hasta 90 toneladas</option>
+                <option value="Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas">Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas</option>
+                <option value="Transporte Privado de materiales y residuos peligrosos">Transporte Privado de materiales y residuos peligrosos</option>
+                <option value="Autotransporte internacional de carga de largo recorrido">Autotransporte internacional de carga de largo recorrido</option>
+                <option value="Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido">Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido</option>
+                <option value="Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos">Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos</option>
+                <option value="Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos">Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos</option>
+                <option value="Servicio auxiliar de arrastre en las vías generales de comunicación">Servicio auxiliar de arrastre en las vías generales de comunicación</option>
+                <option value="Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación">Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación</option>
+                <option value="Servicio de paquetería y mensajería en las vías generales de comunicación">Servicio de paquetería y mensajería en las vías generales de comunicación</option>
+                <option value="Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas">Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas</option>
+                <option value="Servicio federal para empresas arrendadoras servicio público federal">Servicio federal para empresas arrendadoras servicio público federal</option>
+                <option value="Empresas trasladistas de vehículos nuevos">Empresas trasladistas de vehículos nuevos</option>
+                <option value="Empresas fabricantes o distribuidoras de vehículos nuevos">Empresas fabricantes o distribuidoras de vehículos nuevos</option>
+                <option value="Autorización expresa para circular en los caminos y puentes de jurisdicción federal con configuraciones de tractocamión doblemente articulado">Autorización expresa para circular en los caminos y puentes de jurisdicción federal con configuraciones de tractocamión doblemente articulado</option>
+                <option value="Autotransporte Federal de Carga Especializada de fondos y valores">Autotransporte Federal de Carga Especializada de fondos y valores</option>
+                <option value="Permiso temporal para navegación de cabotaje">Permiso temporal para navegación de cabotaje</option>
+                <option value="Concesión y/o autorización para el servicio regular nacional y/o internacional para empresas mexicanas">Concesión y/o autorización para el servicio regular nacional y/o internacional para empresas mexicanas</option>
+                <option value="Permiso para el servicio aéreo regular de empresas extranjeras">Permiso para el servicio aéreo regular de empresas extranjeras</option>
+                <option value="Permiso para el servicio nacional e internacional no regular de fletamento">Permiso para el servicio nacional e internacional no regular de fletamento</option>
+                <option value="Permiso para el servicio nacional e internacional no regular de taxi aéreo">Permiso para el servicio nacional e internacional no regular de taxi aéreo</option>
+                <option value="Permiso no contemplado en el catálogo">Permiso no contemplado en el catálogo</option>
+    </select>
+            <label>Configuración Vehicular:</label>
+            <select name="configVehicular" required>
+        <option value="C2">Camión Unitario</option>
+        <option value="C2R2">Camión-Remolque</option>
+        <option value="C3R2">Camión-Remolque (Mayor capacidad)</option>
+    </select>
+
+            <label>Placa del Vehículo:</label>
+            <input type="text" name="placaVehiculo" required>
+                    </div></div>
+                    
+            <div class="form-section">
+          <div class="form-group">
+            <h3>Operador</h3>
+            <label>Nombre:</label>
+            <input type="text" name="nombreOperador" required>
+
+            <label>RFC:</label>
+            <input type="text" name="rfcOperador" required>
+          </div></div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <h3>Dirección</h3>
+                        <form>
+                            <label for="pais">País:</label>
+                            <select id="pais" name="pais" onchange="limpiarCampos()">
+                                <option value="MX">México</option>
+                                <option value="US">Estados Unidos</option>
+                            </select>
+                            <br><br>
+                    
+                            <label for="codigo_postal">Código Postal:</label>
+                            <input type="text" id="codigo_postal" name="codigo_postal" maxlength="5" required oninput="buscarCP()">
+                            <br><br>
+                    
+                            <label for="estado">Estado:</label>
+                            <input type="text" id="estado" name="estado" readonly>
+                            <br><br>
+                    
+                            <label for="municipio">Municipio:</label>
+                            <input type="text" id="municipio" name="municipio" readonly>
+                            <br><br>
+                    
+                            <label for="localidad">Localidad:</label>
+                            <input type="text" id="localidad" name="localidad">
+                            <br><br>
+                    
+                            <label for="calle">Calle:</label>
+                            <input type="text" id="calle" name="calle">
+                            <br><br>
+                    
+                            <label for="numero_exterior">Número Exterior:</label>
+                            <input type="text" id="numero_exterior" name="numero_exterior">
+                            <br><br>
+                    
+                        <script>
+                            async function buscarCP() {
+                                const cp = document.getElementById("codigo_postal").value;
+                                const pais = document.getElementById("pais").value;
+                    
+                                if (cp.length === 5) {
+                                    try {
+                                        if (pais === "MX") {
+                                    const token = 'fb554bc4-b5e0-4f18-bc4a-130cab156ef3';
+                                    const respuesta = await fetch(`https://api.copomex.com/query/info_cp/${cp}?type=simplified&token=${token}`);
+                                    const datos = await respuesta.json();
+                                    if (!datos.error) {
+                                        document.getElementById("estado").value = datos.response.estado;
+                                        document.getElementById("municipio").value = datos.response.municipio;
+                                    } else {
+                                        limpiarCampos();
+                                        alert("Código postal no encontrado.");
+                                    }
+                                } else if (pais === "US") {
+                                    const respuesta = await fetch(`https://api.zippopotam.us/us/${cp}`);
+                                    const datos = await respuesta.json();
+                                    if (datos.places) {
+                                        document.getElementById("estado").value = datos.places[0]["state"];
+                                        document.getElementById("municipio").value = datos.places[0]["place name"];
+                                    } else {
+                                        limpiarCampos();
+                                        alert("Código postal no encontrado.");
+                                    }
+                                }
+                            } catch (error) {
+                                console.error("Error al obtener datos:", error);
+                                limpiarCampos();
+                                alert("Error al obtener datos.");
+                            }
+                        }
+                    }
+            
+                    function limpiarCampos() {
+                        document.getElementById("estado").value = "";
+                        document.getElementById("municipio").value = "";
+                    }
+                </script>
+
+        
+        
+            </div></div>
+           
+            <button type="submit">Guardar Carta Porte</button>
+           
+    </div>
+</form>
+<footer>
+    <img id="logopie" src="img/LOGO_CENCA-removebg-preview.png"><img>
+  
+    © 2025 - Software de certificados y documentos oficiales CERTICENC V0.1
+  
+  Teléfonos: +52 00 00 00 00 00 / +52 00 00 00 00 00
+  Lunes a viernes de 9am a 6pm
+  </footer>
+               
+            
+        </form>
+    </div>
+</body>
+</html>
