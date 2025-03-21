@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<header>
+    <img id="logopie" src="img/LOGO_CENCA-removebg-preview.png">
+</header>
+<body>
+    <div class="container">
+        <h1> Datos</h1>
+
+        <form action="generar_pdf.php" method="POST">
+            <div class="form-section">
+                <div class="form-group">
+                    <h2>Datos Fiscales</h2>
+                    <label>Versión:</label>
+                    <input type="text" name="version" value="3.1" readonly required class="no-edit">
+                    
+                    <label>N° de Certificado del SAT:</label>
+                    <input type="text" name="certificadoSAT" required>
+                    <label>Lugar de Expedición:</label>
+                    <input type="text" name="Expedición" required>
+                    <label>Fecha y Hora de Expedición:</label>
+                    <input type="datetime-local" name="fechaExpedicion" required>
+
+                    <label>Tipo de Comprobante:</label>
+                    <select name="tipoComprobante" required>
+                        <option value="I">Ingreso</option>
+                        <option value="T">Traslado</option>
+                    </select>
+                    <label>Tipo de Relación:</label>
+                    <select name="tipoRelacion" required>
+                        <option value="05">Traslados de mercancías facturadas previamente</option>
+            <option value="06">De Intercambio</option>
+            <option value="06">De Donación</option>
+            <option value="06">Reciprocidad</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Receptor</h3>
+                    
+                    <label>Régimen Fiscal::</label>
+                    <input type="text" name="Regimen fiscal" required>
+                    <label>Domicilio:</label>
+                    <input type="text" name="Domicilio" required>
+                    <label>RFC:</label>
+                    <input type="text" name="rfcReceptor" required>
+                    <label>Uso de CFDI:</label>
+                    <select name="usoCfdi" required>
+                        <option value="P01">Por definir</option>
+                    <option value="Definitivo de importación">Definitivo de importación</option>
+                    <option value="Definitivo de exportación">Definitivo de exportación</option>
+        <option value="Temporales de importación para retomar al extranjero en el mismo estado">Temporales de importación para retomar al extranjero en el mismo estado</option>
+        <option value="Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX">Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX</option>
+        <option value="Temporales de exportación para retornar al país en el mismo estado">Temporales de exportación para retornar al país en el mismo estado</option>
+        <option value="Temporales de exportación para elaboración, transformación o reparación">Temporales de exportación para elaboración, transformación o reparación</option>
+        <option value="Depósito Fiscal">Depósito Fiscal</option>
+        <option value="Elaboración, transformación o reparación en recinto fiscalizado">Elaboración, transformación o reparación en recinto fiscalizado</option>
+        <option value="Recinto fiscalizado estratégico">Recinto fiscalizado estratégico</option>
+        <option value="Tránsitos">Tránsitos</option>
+                    </select>
+                    <label>Razón Social:</label>
+                    <input type="text" name="razonSocialReceptor" required>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Ubicaciones</h3>
+                    <label>ID Origen:</label>
+                    <input type="text" name="idOrigen" required>
+                    <label>Ubicación de Origen:</label>
+                    <input type="text" name="ubicacionO" required>
+                    <label>RFC Origen:</label>
+                    <input type="text" name="rfcOrigen" required>
+
+                    <div class="form-section">
+                        <div class="form-group">
+                            <h3>Dirección del emisor</h3>
+                            <form>
+                                <label for="pais">País:</label>
+                                <select id="pais" name="pais" onchange="limpiarCampos()">
+                                    <option value="MX">México</option>
+                                    <option value="US">Estados Unidos</option>
+                                </select>
+                                <br><br>
+                        
+                                <label for="codigo_postal">Código Postal:</label>
+                                <input type="text" id="codigo_postal" name="codigo_postal" maxlength="5" required oninput="buscarCP()">
+                                <br><br>
+                        
+                                <label for="estado">Estado:</label>
+                                <input type="text" id="estado" name="estado" readonly>
+                                <br><br>
+                        
+                                <label for="municipio">Municipio:</label>
+                                <input type="text" id="municipio" name="municipio" readonly>
+                                <br><br>
+                        
+                                <label for="localidad">Localidad:</label>
+                                <input type="text" id="localidad" name="localidad">
+                                <br><br>
+                        
+                                <label for="calle">Calle:</label>
+                                <input type="text" id="calle" name="calle">
+                                <br><br>
+                        
+                                <label for="numero_exterior">Número Exterior:</label>
+                                <input type="text" id="numero_exterior" name="numero_exterior">
+                                <br><br>
+                        
+                            <script>
+                                async function buscarCP() {
+                                    const cp = document.getElementById("codigo_postal").value;
+                                    const pais = document.getElementById("pais").value;
+                        
+                                    if (cp.length === 5) {
+                                        try {
+                                            if (pais === "MX") {
+                                        const token = 'fb554bc4-b5e0-4f18-bc4a-130cab156ef3';
+                                        const respuesta = await fetch(`https://api.copomex.com/query/info_cp/${cp}?type=simplified&token=${token}`);
+                                        const datos = await respuesta.json();
+                                        if (!datos.error) {
+                                            document.getElementById("estado").value = datos.response.estado;
+                                            document.getElementById("municipio").value = datos.response.municipio;
+                                        } else {
+                                            limpiarCampos();
+                                            alert("Código postal no encontrado.");
+                                        }
+                                    } else if (pais === "US") {
+                                        const respuesta = await fetch(`https://api.zippopotam.us/us/${cp}`);
+                                        const datos = await respuesta.json();
+                                        if (datos.places) {
+                                            document.getElementById("estado").value = datos.places[0]["state"];
+                                            document.getElementById("municipio").value = datos.places[0]["place name"];
+                                        } else {
+                                            limpiarCampos();
+                                            alert("Código postal no encontrado.");
+                                        }
+                                    }
+                                } catch (error) {
+                                    console.error("Error al obtener datos:", error);
+                                    limpiarCampos();
+                                    alert("Error al obtener datos.");
+                                }
+                            }
+                        }
+                
+                        function limpiarCampos() {
+                            document.getElementById("estado").value = "";
+                            document.getElementById("municipio").value = "";
+                        }
+                    </script>
+    
+
+
+
+
+                    <label>Tipo de Transporte:</label>
+                    <select name="tipoTransporte" required>
+                        <option value="nacional">Nacional</option>
+                        <option value="Internacional">Internacional</option>
+                    <label>RFC Remitente:</label>
+                    <input type="text" name="rfcRemitente" required>
+
+                    <label>Nombre Remitente:</label>
+                    <input type="text" name="nombreRemitente" required>
+                    <label>ID Destino:</label>
+                    <input type="text" name="idDestino" required>
+                    <label>Nombre del Destinatario:</label>
+                    <input type="text" name="destinatario" required>
+                    <label>RFC Destinatario:</label>
+                    <input type="text" name="rfcDestinatario" required>
+                    <label>Ubicación Destino:</label>
+                    <input type="text" name="ubicacionD" required>
+
+
+
+
+
+
+                    <div class="form-section">
+                        <div class="form-group">
+                            <h3>Dirección del receptor</h3>
+                            <form>
+                                <label for="pais">País:</label>
+                                <select id="pais" name="pais" onchange="limpiarCampos()">
+                                    <option value="MX">México</option>
+                                    <option value="US">Estados Unidos</option>
+                                </select>
+                                <br><br>
+                        
+                                <label for="codigo_postal">Código Postal:</label>
+                                <input type="text" id="codigo_postal" name="codigo_postal" maxlength="5" required oninput="buscarCP()">
+                                <br><br>
+                        
+                                <label for="estado">Estado:</label>
+                                <input type="text" id="estado" name="estado" readonly>
+                                <br><br>
+                        
+                                <label for="municipio">Municipio:</label>
+                                <input type="text" id="municipio" name="municipio" readonly>
+                                <br><br>
+                        
+                                <label for="localidad">Localidad:</label>
+                                <input type="text" id="localidad" name="localidad">
+                                <br><br>
+                        
+                                <label for="calle">Calle:</label>
+                                <input type="text" id="calle" name="calle">
+                                <br><br>
+                        
+                                <label for="numero_exterior">Número Exterior:</label>
+                                <input type="text" id="numero_exterior" name="numero_exterior">
+                                <br><br>
+                        
+                            <script>
+                                async function buscarCP() {
+                                    const cp = document.getElementById("codigo_postal").value;
+                                    const pais = document.getElementById("pais").value;
+                        
+                                    if (cp.length === 5) {
+                                        try {
+                                            if (pais === "MX") {
+                                        const token = 'fb554bc4-b5e0-4f18-bc4a-130cab156ef3';
+                                        const respuesta = await fetch(`https://api.copomex.com/query/info_cp/${cp}?type=simplified&token=${token}`);
+                                        const datos = await respuesta.json();
+                                        if (!datos.error) {
+                                            document.getElementById("estado").value = datos.response.estado;
+                                            document.getElementById("municipio").value = datos.response.municipio;
+                                        } else {
+                                            limpiarCampos();
+                                            alert("Código postal no encontrado.");
+                                        }
+                                    } else if (pais === "US") {
+                                        const respuesta = await fetch(`https://api.zippopotam.us/us/${cp}`);
+                                        const datos = await respuesta.json();
+                                        if (datos.places) {
+                                            document.getElementById("estado").value = datos.places[0]["state"];
+                                            document.getElementById("municipio").value = datos.places[0]["place name"];
+                                        } else {
+                                            limpiarCampos();
+                                            alert("Código postal no encontrado.");
+                                        }
+                                    }
+                                } catch (error) {
+                                    console.error("Error al obtener datos:", error);
+                                    limpiarCampos();
+                                    alert("Error al obtener datos.");
+                                }
+                            }
+                        }
+                
+                        function limpiarCampos() {
+                            document.getElementById("estado").value = "";
+                            document.getElementById("municipio").value = "";
+                        }
+                    </script>
+    
+
+                    <label>Fecha de Salida:</label>
+                    <input type="datetime-local" name="fechaSalida" required>
+
+                    <label>Fecha de Llegada:</label>
+                    <input type="datetime-local" name="fechaLlegada" required>
+                    <label>Distancia Recorrida:</label>
+                    <input type="number" name="distancia" required>
+
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Mercancías</h3>
+                    <h3>Tipo de Mercancia</h3>
+<label>Tipo de Mercancía:</label>
+<select name="tipoMercancia" id="tipoMercancia">
+    <option value="no_existe_en_catalogo">No existe en el catálogo</option>
+    <option value="animales_vivos_de_granja">Animales vivos de granja</option>
+    <option value="caballos">Caballos</option>
+    <option value="ovejas">Ovejas</option>
+    <option value="peces_vivos">Peces vivos</option>
+    <option value="alimento_perros_gatos">Alimento para perros y gatos</option>
+</select>
+<button type="button" onclick="agregarMercancia()">Agregar Mercancía</button>
+
+<ul id="listaMercancias"></ul>
+
+<script>
+function agregarMercancia() {
+    var select = document.getElementById("tipoMercancia");
+    var lista = document.getElementById("listaMercancias");
+
+    var opcionSeleccionada = select.options[select.selectedIndex].text;
+
+    if (opcionSeleccionada) {
+        var li = document.createElement("li");
+        li.textContent = opcionSeleccionada;
+        lista.appendChild(li);
+    }
+}
+</script>
+
+    <label>Tipo de Materia:</label>
+    <select>
+        <option value="materiaPrima">Materia prima</option>
+        <option value="materiaProcesada">Materia procesada</option>
+        <option value="materiaTerminada">Materia terminada (producto terminado)</option>
+        <option value="materiaIndustria">Materia para la industria manufacturera</option>
+        <option value="otra">Otra</option>
+      </select>
+      
+                    
+                    <label>Descripción:</label>
+                    <input type="text" name="descripcionMercancia" required>
+                    <label>Número total de Mercancías:</label>
+            <input type="number" name="merca" required>
+            <label>Clave de Unidad:</label>
+            <input type="number" name="claveunida" required>
+            <label>Unidad:</label>
+            <input type="number" name="Unidad" required>
+            
+            
+            <label>Cantidad:</label>
+            <input type="number" name="cantidad" required>
+            <label>Dimensiones (Largo x Ancho x Alto):</label>
+            <div class="dimensiones-group">
+                <input type="number" name="largo" placeholder="Largo (m)" step="0.01" required>
+                <input type="number" name="ancho" placeholder="Ancho (m)" step="0.01" required>
+                <input type="number" name="alto" placeholder="Alto (m)" step="0.01" required>
+            </div>
+            <label>Volumen (m³):</label>
+            <input type="number" name="volumen" placeholder="Volumen (m³)" step="0.01" readonly>
+            <label>Unidad de medida en peso:</label>
+            <input type="number" name="medida" required>
+            
+            <label>Peso en Kg:</label>
+            <input type="number" name="pesoKg" required>
+      
+            <label>Material Peligroso:</label>
+<select id="materialPeligroso" onchange="toggleMaterialOptions()">
+    <option value="no">No</option>
+    <option value="si">Sí</option>
+</select>
+
+<label>Material:</label>
+<select id="material" name="materiales">
+    <option value="no_es_peligroso">No es peligroso</option>
+    <option value="picrato_amonico">Picrato amónico seco o humedecido con menos del 10%, en masa, de agua</option>
+    <option value="cartuchos_armas">Cartuchos para armas, con carga explosiva</option>
+    <option value="municiones_incendiarias">Municiones incendiarias con o sin carga dispersora, carga expulsora o carga propulsora</option>
+    <option value="cartuchos_fogueo">Cartuchos de fogueo para armas, o cartuchos sin carga para herramientas</option>
+    <option value="municiones_fumigenas">Municiones fumígenas con o sin carga dispersora, carga expulsora o carga propulsora</option>
+    <option value="municiones_lacrimogenas">Municiones lacrimógenas con carga dispersora, carga expulsora o carga propulsora</option>
+    <option value="polvora_negra">Pólvora negra en forma de granos o polvo</option>
+    <option value="detonadores">Detonadores eléctricos para voladuras</option>
+    <option value="bombas">Bombas con carga explosiva</option>
+    <option value="explosivos_tipo_a">Explosivos para voladuras, tipo A</option>
+    <option value="explosivos_tipo_b">Explosivos para voladuras, tipo B</option>
+    <option value="plaguicidas">Plaguicidas sólidos, N.E.P.</option>
+</select>
+
+<script>
+function toggleMaterialOptions() {
+    var peligroso = document.getElementById("materialPeligroso").value;
+    var materialSelect = document.getElementById("material");
+
+    if (peligroso === "no") {
+        materialSelect.value = "no_es_peligroso"; // Selecciona "No es peligroso"
+        materialSelect.setAttribute("disabled", "disabled"); // Deshabilita el campo
+    } else {
+        materialSelect.removeAttribute("disabled"); // Habilita el campo
+    }
+}
+</script>
+
+<label>Clave del Material:</label>
+            <input type="number" name="ClaveM" required>
+      
+
+
+                
+<label>Tipo de Embalage:</label>
+<select name="embalajes">
+    <option value="Z01">Z01 No aplica</option>
+    <option value="1A1">1A1 Bidones (Tambores) de Acero de tapa no desmontable</option>
+    <option value="1A2">1A2 Bidones (Tambores) de Acero de tapa desmontable</option>
+    <option value="1B1">1B1 Bidones (Tambores) de Aluminio de tapa no desmontable</option>
+    <option value="1B2">1B2 Bidones (Tambores) de Aluminio de tapa desmontable</option>
+    <option value="1D">1D Bidones (Tambores) de Madera contrachapada</option>
+    <option value="1G">1G Bidones (Tambores) de Cartón</option>
+    <option value="1H1">1H1 Bidones (Tambores) de Plástico de tapa no desmontable</option>
+    <option value="1H2">1H2 Bidones (Tambores) de Plástico de tapa desmontable</option>
+    <option value="1N1">1N1 Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa no desmontable</option>
+    <option value="1N2">1N2 Bidones (Tambores) de Metal que no sea acero ni aluminio de tapa desmontable</option>
+    <option value="3A1">3A1 Jerricanes (Porrones) de Acero de tapa no desmontable</option>
+    <option value="3A2">3A2 Jerricanes (Porrones) de Acero de tapa desmontable</option>
+    <option value="3B1">3B1 Jerricanes (Porrones) de Aluminio de tapa no desmontable</option>
+    <option value="3B2">3B2 Jerricanes (Porrones) de Aluminio de tapa desmontable</option>
+    <option value="3H1">3H1 Jerricanes (Porrones) de Plástico de tapa no desmontable</option>
+    <option value="3H2">3H2 Jerricanes (Porrones) de Plástico de tapa desmontable</option>
+    <option value="4A">4A Cajas de Acero</option>
+    <option value="4B">4B Cajas de Aluminio</option>
+    <option value="4C1">4C1 Cajas de Madera natural ordinaria</option>
+    <option value="4C2">4C2 Cajas de Madera natural de paredes a prueba de polvos</option>
+    <option value="4D">4D Cajas de Madera contrachapada</option>
+    <option value="4F">4F Cajas de Madera reconstituida</option>
+    <option value="4G">4G Cajas de Cartón</option>
+    <option value="4H1">4H1 Cajas de Plástico Expandido</option>
+    <option value="4H2">4H2 Cajas de Plástico Rígido</option>
+    <option value="5H1">5H1 Sacos (Bolsas) de Tejido de plástico sin forro</option>
+    <option value="5H2">5H2 Sacos (Bolsas) de Tejido de plástico a prueba de polvos</option>
+    <option value="5H3">5H3 Sacos (Bolsas) de Tejido de plástico resistente al agua</option>
+    <option value="5H4">5H4 Sacos (Bolsas) de Película de plástico</option>
+    <option value="5L1">5L1 Sacos (Bolsas) de Tela sin forro</option>
+    <option value="5L2">5L2 Sacos (Bolsas) de Tela a prueba de polvos</option>
+    <option value="5L3">5L3 Sacos (Bolsas) de Tela resistentes al agua</option>
+    <option value="5M1">5M1 Sacos (Bolsas) de Papel de varias hojas</option>
+    <option value="5M2">5M2 Sacos (Bolsas) de Papel de varias hojas, resistentes al agua</option>
+    <option value="7H1">7H1 Bultos de Plástico</option>
+    <option value="7L1">7L1 Bultos de Tela</option>
+</select>
+
+<label>Fracción Arancelaria:</label>
+<input type="text" name="fraccionArancelaria" id="fraccionArancelaria"  placeholder="Ingrese entre 8 y 10 dígitos numéricos" required 
+       maxlength="10" minlength="8" 
+       pattern="\d{8,10}" 
+       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+
+            <label>Pedimento:</label>
+            <input type="text" name="pedimento" required>
+                </div>
+                
+            </div>
+            <div class="form-section">
+                <div class="form-group">
+                  <h3>Documentación Aduanera</h3>
+                  <label>Tipo de Documento:</label>
+                  <select>
+                    <option value="pedimento">Pedimento</option>
+                    <option value="autorizacionImportacionTemporal">Autorización de importación temporal</option>
+                    <option value="autorizacionImportacionEmbarcaciones">Autorización de importación temporal de embarcaciones</option>
+                    <option value="autorizacionImportacionMantenimiento">Autorización de importación temporal de mercancías, destinadas al mantenimiento y reparación de las mercancías importadas temporalmente</option>
+                    <option value="autorizacionImportacionVehiculos">Autorización para la importación de vehículos especialmente construidos o transformados, equipados con dispositivos o aparatos diversos para cumplir con contrato derivado de licitación pública</option>
+                    <option value="avisoExportacionTemporal">Aviso de exportación temporal</option>
+                    <option value="avisoTrasladoIMMEX">Aviso de traslado de mercancías de empresas con Programa IMMEX, RFE u Operador Económico Autorizado</option>
+                    <option value="avisoTrasladoAutopartes">Aviso para el traslado de autopartes ubicadas en la franja o región fronteriza a la industria terminal automotriz o manufacturera de vehículos de autotransporte en el resto del territorio nacional</option>
+                    <option value="constanciaImportacionTemporal">Constancia de importación temporal, retorno o transferencia de contenedores</option>
+                    <option value="constanciaTransferenciaMercancias">Constancia de transferencia de mercancías</option>
+                    <option value="autorizacionDonacionFiscoFederal">Autorización de donación de mercancías al Fisco Federal que se encuentren en el extranjero</option>
+                    <option value="cuadernoATA">Cuaderno ATA</option>
+                    <option value="listasIntercambio">Listas de intercambio</option>
+                    <option value="permisoImportacionTemporal">Permiso de Importación Temporal</option>
+                    <option value="permisoImportacionCasaRodante">Permiso de importación temporal de casa rodante</option>
+                    <option value="permisoImportacionEmbarcaciones">Permiso de importación temporal de embarcaciones</option>
+                    <option value="solicitudDonacionEmergencias">Solicitud de donación de mercancías en casos de emergencias o desastres naturales</option>
+                    <option value="avisoConsolidado">Aviso de consolidado</option>
+                    <option value="avisoCruceMercancias">Aviso de cruce de mercancías</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                  
+                  <label>Número de Pedimento:</label>
+                  <input type="text" name="NumeroPedimento" id="NumeroPedimento"  placeholder="Ingrese entre 8 y 10 dígitos numéricos" required 
+                         maxlength="10" minlength="8" 
+                         pattern="\d{8,10}" 
+                         oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                         <label>RFC Importador:</label>
+                         <input type="text" name="importador" required>
+
+</div></div>
+
+
+            <div class="form-section">
+                <div class="form-group">
+                    <h3>Costos e Impuestos</h3>
+
+<!-- Subtotal -->
+<label>Subtotal de la Mercancía ($):</label>
+<input type="number" id="subtotal" placeholder="Subtotal" step="0.01" required>
+
+<!-- IVA -->
+<label>IVA (%):</label>
+<input type="number" id="iva" value="16" placeholder="IVA (%)" step="0.01" required>
+
+<!-- IEPS -->
+<label>IEPS (%):</label>
+<input type="number" id="ieps" value="8" placeholder="IEPS (%)" step="0.01" required>
+
+<!-- Total de Impuestos -->
+<label>Total de Impuestos ($):</label>
+<input type="number" id="totalImpuestos" placeholder="Total de Impuestos" step="0.01" readonly>
+
+<!-- Valor Total de la Mercancía (Subtotal + Impuestos) -->
+<label>Valor Total de la Mercancía ($):</label>
+<input type="number" id="valorTotal" placeholder="Valor Total" step="0.01" readonly>
+
+<script>
+function calcularImpuestos() {
+    // Obtener los valores de los campos
+    const subtotal = parseFloat(document.getElementById("subtotal").value) || 0;
+    const iva = parseFloat(document.getElementById("iva").value) / 100;
+    const ieps = parseFloat(document.getElementById("ieps").value) / 100;
+
+    // Calcular los impuestos
+    const totalIVA = subtotal * iva;
+    const totalIEPS = subtotal * ieps;
+    const totalImpuestos = totalIVA + totalIEPS;
+    const valorTotal = subtotal + totalImpuestos;
+
+    // Mostrar los resultados en los campos correspondientes
+    document.getElementById("totalImpuestos").value = totalImpuestos.toFixed(2);
+    document.getElementById("valorTotal").value = valorTotal.toFixed(2);
+}
+
+// Escuchar cambios en los campos
+document.getElementById("subtotal").addEventListener("input", calcularImpuestos);
+document.getElementById("iva").addEventListener("input", calcularImpuestos);
+document.getElementById("ieps").addEventListener("input", calcularImpuestos);
+</script>
+                    <label>Método de Pago:</label>
+                    <select name="metodoPago" id="metodoPago" required>
+                        <option value="" disabled selected>Selecciona un método de pago</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="tarjetaCredito">Tarjeta de Crédito</option>
+                        <option value="tarjetaDebito">Tarjeta de Débito</option>
+                        <option value="transferencia">Transferencia Electrónica</option>
+                        <option value="cheque">Cheque</option>
+                        <option value="monederoElectronico">Monedero Electrónico</option>
+                        <option value="dineroElectronico">Dinero Electrónico</option>
+                        <option value="valesDespensa">Vales de Despensa</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                    <div id="campoOtros" style="display: none;">
+                        <label>Especificar Método de Pago:</label>
+                        <input type="text" name="otrosMetodoPago" placeholder="Describe el método de pago">
+                    </div>
+                    
+                    <script>
+                        const metodoPagoSelect = document.getElementById("metodoPago");
+                        const campoOtros = document.getElementById("campoOtros");
+                    
+                        metodoPagoSelect.addEventListener("change", function() {
+                            if (metodoPagoSelect.value === "otros") {
+                                campoOtros.style.display = "block";
+                            } else {
+                                campoOtros.style.display = "none";
+                            }
+                        });
+                    </script>
+            <h3>Transporte</h3>
+            <label>Tipo de Transporte:</label>
+            <select name="tipoTransporte" required>
+        <option value="01">Autotransporte </option>
+        <option value="02">Transporte Marítimo</option>
+        <option value="03">Transporte Aéreo</option>
+        <option value="04">Transporte Ferroviario</option>
+    </select>
+    <label>Número de permiso SCT:</label>
+    <input type="text" name="N permiso" required>
+    <label>Transporte Internacional:</label>
+    <select name="transporte" required>
+        <option value="Si.">Si.</option>
+        <option value=" No">No</option>
+        </select>
+
+        <label>Regimen Aduanero:</label>
+    <select name="Aduanero" required>
+        <option value="IMD	Definitivo de importación">IMD	Definitivo de importación</option>
+        <option value="EXD	Definitivo de exportación">EXD	Definitivo de exportación</option>
+        <option value="ITR	Temporales de importación para retomar al extranjero en el mismo estado">ITR	Temporales de importación para retomar al extranjero en el mismo estado</option>
+        <option value="ITE	Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX">ITE	Temporales de importación para elaboración, transformación o reparación para empresas con programa IMMEX</option>
+        <option value="etr">ETR - Temporales de exportación para retornar al país en el mismo estado</option>
+        <option value="ete">ETE - Temporales de exportación para elaboración, transformación o reparación</option>
+        <option value="dfi">DFI - Depósito fiscal</option>
+        <option value="rfe">RFE - Elaboración, transformación o reparación en recinto fiscalizado</option>
+        <option value="rfs">RFS - Recinto fiscalizado estratégico</option>
+        <option value="tra">TRA - Tránsitos</option>
+        </select>
+
+        <label>EntradaSalida Mercancia:</label>
+    <select name="transporte" required>
+        <option value="Entrada">Entrada</option>
+        <option value=" Salida">Salida</option>
+        </select>
+
+
+            <label>Permiso SCT:</label>
+            <select name="numPermisoSCT" required>
+                <option value="TPAF01 Autotransporte Federal de carga general.">TPAF01 Autotransporte Federal de carga general.</option>
+                <option value=" TPAF02 Transporte privado de carga.">TPAF02 Transporte privado de carga.</option>
+                <option value="TPAF03 Autotransporte Federal de Carga Especializada">TPAF03 Autotransporte Federal de Carga Especializada</option>
+                <option value="Autotransporte Federal de carga general">Autotransporte Federal de carga general</option>
+                <option value="Transporte privado de carga">Transporte privado de carga</option>
+                <option value="Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos">Autotransporte Federal de Carga Especializada de materiales y residuos peligrosos</option>
+                <option value="Transporte de automóviles sin rodar en vehículo tipo góndola">Transporte de automóviles sin rodar en vehículo tipo góndola</option>
+                <option value="Transporte de carga de gran peso y/o volumen de hasta 90 toneladas">Transporte de carga de gran peso y/o volumen de hasta 90 toneladas</option>
+                <option value="Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas">Transporte de carga especializada de gran peso y/o volumen de más 90 toneladas</option>
+                <option value="Transporte Privado de materiales y residuos peligrosos">Transporte Privado de materiales y residuos peligrosos</option>
+                <option value="Autotransporte internacional de carga de largo recorrido">Autotransporte internacional de carga de largo recorrido</option>
+                <option value="Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido">Autotransporte internacional de carga especializada de materiales y residuos peligrosos de largo recorrido</option>
+                <option value="Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos">Autotransporte Federal de Carga General cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos</option>
+                <option value="Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos">Autotransporte Federal de Carga Especializada cuyo ámbito de aplicación comprende la franja fronteriza con Estados Unidos</option>
+                <option value="Servicio auxiliar de arrastre en las vías generales de comunicación">Servicio auxiliar de arrastre en las vías generales de comunicación</option>
+                <option value="Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación">Servicio auxiliar de servicios de arrastre, arrastre y salvamento, y depósito de vehículos en las vías generales de comunicación</option>
+                <option value="Servicio de paquetería y mensajería en las vías generales de comunicación">Servicio de paquetería y mensajería en las vías generales de comunicación</option>
+                <option value="Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas">Transporte especial para el tránsito de grúas industriales con peso máximo de 90 toneladas</option>
+                <option value="Servicio federal para empresas arrendadoras servicio público federal">Servicio federal para empresas arrendadoras servicio público federal</option>
+                <option value="Empresas trasladistas de vehículos nuevos">Empresas trasladistas de vehículos nuevos</option>
+                <option value="Empresas fabricantes o distribuidoras de vehículos nuevos">Empresas fabricantes o distribuidoras de vehículos nuevos</option>
+                <option value="Autorización expresa para circular en los caminos y puentes de jurisdicción federal con configuraciones de tractocamión doblemente articulado">Autorización expresa para circular en los caminos y puentes de jurisdicción federal con configuraciones de tractocamión doblemente articulado</option>
+                <option value="Autotransporte Federal de Carga Especializada de fondos y valores">Autotransporte Federal de Carga Especializada de fondos y valores</option>
+                <option value="Permiso temporal para navegación de cabotaje">Permiso temporal para navegación de cabotaje</option>
+                <option value="Concesión y/o autorización para el servicio regular nacional y/o internacional para empresas mexicanas">Concesión y/o autorización para el servicio regular nacional y/o internacional para empresas mexicanas</option>
+                <option value="Permiso para el servicio aéreo regular de empresas extranjeras">Permiso para el servicio aéreo regular de empresas extranjeras</option>
+                <option value="Permiso para el servicio nacional e internacional no regular de fletamento">Permiso para el servicio nacional e internacional no regular de fletamento</option>
+                <option value="Permiso para el servicio nacional e internacional no regular de taxi aéreo">Permiso para el servicio nacional e internacional no regular de taxi aéreo</option>
+                <option value="Permiso no contemplado en el catálogo">Permiso no contemplado en el catálogo</option>
+    </select>
+            <label>Configuración Vehicular:</label>
+            <select name="configVehicular" required>
+                    <option value="vehiculoLigeroCarga">Vehículo ligero de carga (2 llantas en el eje delantero y 2 llantas en el eje trasero)</option>
+                    <option value="camionUnitario2llantas">Camión Unitario (2 llantas en el eje delantero y 4 llantas en el eje trasero)</option>
+                    <option value="camionUnitario6llantas">Camión Unitario (2 llantas en el eje delantero y 6 o 8 llantas en los dos ejes traseros)</option>
+                    <option value="camionRemolque6llantas">Camión-Remolque (6 llantas en el camión y 8 llantas en remolque)</option>
+                    <option value="camionRemolque10llantas">Camión-Remolque (10 llantas en el camión y 8 llantas en remolque)</option>
+                    <option value="camionRemolque12llantas">Camión-Remolque (6 llantas en el camión y 12 llantas en remolque)</option>
+                    <option value="camionRemolque12llantas">Camión-Remolque (10 llantas en el camión y 12 llantas en remolque)</option>
+                    <option value="tractocamionArticulado6llantas">Tractocamión Articulado (6 llantas en el tractocamión, 4 llantas en el semirremolque)</option>
+                    <option value="tractocamionArticulado8llantas">Tractocamión Articulado (6 llantas en el tractocamión, 8 llantas en el semirremolque)</option>
+                    <option value="tractocamionArticulado12llantas">Tractocamión Articulado (6 llantas en el tractocamión, 12 llantas en el semirremolque)</option>
+                    <option value="tractocamionArticulado10llantas">Tractocamión Articulado (10 llantas en el tractocamión, 4 llantas en el semirremolque)</option>
+                    <option value="tractocamionArticulado18llantas">Tractocamión Articulado (10 llantas en el tractocamión, 8 llantas en el semirremolque)</option>
+                    <option value="tractocamionArticulado20llantas">Tractocamión Articulado (10 llantas en el tractocamión, 12 llantas en el semirremolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (6 llantas en el tractocamión, 4 llantas en el semirremolque y 8 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (6 llantas en el tractocamión, 8 llantas en el semirremolque y 8 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (6 llantas en el tractocamión, 4 llantas en el semirremolque y 12 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 4 llantas en el semirremolque y 8 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 4 llantas en el semirremolque y 12 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 8 llantas en el semirremolque y 8 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 8 llantas en el semirremolque y 12 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueRemolque">Tractocamión Semirremolque-Remolque (10 llantas en el tractocamión, 8 llantas en el semirremolque y 16 llantas en el remolque)</option>
+                    <option value="tractocamionSemirremolqueSemirremolque">Tractocamión Semirremolque-Semirremolque (6 llantas en el tractocamión, 8 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)</option>
+                    <option value="tractocamionSemirremolqueSemirremolque">Tractocamión Semirremolque-Semirremolque (10 llantas en el tractocamión, 8 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)</option>
+                    <option value="tractocamionSemirremolqueSemirremolque">Tractocamión Semirremolque-Semirremolque (10 llantas en el tractocamión, 12 llantas en el semirremolque delantero y 8 llantas en el semirremolque trasero)</option>
+                    <option value="especializadoCargaVoluminosa">Especializado de carga Voluminosa y/o Gran Peso</option>
+                    <option value="servicioGruas">Servicio de Grúas</option>
+                    <option value="gruaPlumaTipoA">Grúa de Pluma Tipo A</option>
+                    <option value="gruaPlumaTipoB">Grúa de Pluma Tipo B</option>
+                    <option value="gruaPlumaTipoC">Grúa de Pluma Tipo C</option>
+                    <option value="gruaPlumaTipoD">Grúa de Pluma Tipo D</option>
+                    <option value="gruaPlataformaTipoA">Grúa de Plataforma Tipo A</option>
+                    <option value="gruaPlataformaTipoB">Grúa de Plataforma Tipo B</option>
+                    <option value="gruaPlataformaTipoC">Grúa de Plataforma Tipo C</option>
+                    <option value="gruaPlataformaTipoD">Grúa de Plataforma Tipo D</option>
+                    <option value="abastecedor">Abastecedor</option>
+                    <option value="barcaza">Barcaza</option>
+                    <option value="granelero">Granelero</option>
+                    <option value="portaContenedor">Porta Contenedor</option>
+                    <option value="draga">Draga</option>
+                    <option value="pesquero">Pesquero</option>
+                    <option value="cargaGeneral">Carga General</option>
+                    <option value="quimiqueros">Quimiqueros</option>
+                    <option value="transbordadores">Transbordadores</option>
+                    <option value="cargaRoRo">Carga RoRo</option>
+                    <option value="investigacion">Investigación</option>
+                    <option value="tanquero">Tanquero</option>
+                    <option value="gasero">Gasero</option>
+                    <option value="remolcador">Remolcador</option>
+                    <option value="extraordinariaEspecializacion">Extraordinaria especialización</option>
+                  </select>
+                  
+
+
+    <label>Peso Bruto Vehícular:</label>
+    <input type="text" name="pib" required>
+
+            <label>Placa del Vehículo:</label>
+            <input type="text" name="placaVehiculo" required>
+
+            <label>Año Modelo Vehículo:</label>
+    <input type="text" name="pib" required>
+                    </div></div>
+                    
+                    <div class="form-section">
+                        <div class="form-group">
+                          <h3>Seguros</h3>
+                          <label>Aseguradora de Responsabilidad civil:</label>
+                          <input type="text" name="Aseguradora" required>
+                          <label>Número de póliza de seguro por responsabilidad civil:</label>
+                          <input type="text" name="NumeroPoliza" id="NumeroPoliza"  placeholder="Ingrese entre 8 y 10 dígitos numéricos" required 
+                                 maxlength="10" minlength="8" 
+                                 pattern="\d{8,10}" 
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                          <label>Aseguradora de daños al medio ambiente</label>
+                          <input type="text" name="ma" required>
+                          <label>Número de póliza de seguro por daños al medio ambiente:</label>
+                          <input type="text" name="NumeroPolizaD" id="NumeroPolizaD"  placeholder="Ingrese entre 8 y 10 dígitos numéricos" required 
+                                 maxlength="10" minlength="8" 
+                                 pattern="\d{8,10}" 
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                          <label>Aseguradora de la carga transportada:</label>
+                          <input type="text" name="CargaT" required>
+                          <label>Número de póliza de seguro de la carga transportada:</label>
+                          <input type="text" name="Transportada" id="Transportada"  placeholder="Ingrese entre 8 y 10 dígitos numéricos" required 
+                                 maxlength="10" minlength="8" 
+                                 pattern="\d{8,10}" 
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                 <label>Valor de la prima del seguro ($):</label>
+                                 <input type="number" id="ValorSeguro" placeholder="ValorSeguro" step="0.01" readonly>
+
+                        </div></div>
+
+                
+<div class="form-section">
+    <div class="form-group">
+        <h3>Remolque</h3>
+        <form>
+            <label>Subtipo de Remolque:</label>
+            <select name="configVehicular" required>
+                
+                    <option value="CTR001">CTR001 Caballete</option>
+                    <option value="CTR002">CTR002 Caja</option>
+                    <option value="CTR003">CTR003 Caja Abierta</option>
+                    <option value="CTR004">CTR004 Caja Cerrada</option>
+                    <option value="CTR005">CTR005 Caja De Recolección Con Cargador Frontal</option>
+                    <option value="CTR006">CTR006 Caja Refrigerada</option>
+                    <option value="CTR007">CTR007 Caja Seca</option>
+                    <option value="CTR008">CTR008 Caja Transferencia</option>
+                    <option value="CTR009">CTR009 Cama Baja o Cuello Ganso</option>
+                    <option value="CTR010">CTR010 Chasis Portacontenedor</option>
+                    <option value="CTR011">CTR011 Convencional De Chasis</option>
+                    <option value="CTR012">CTR012 Equipo Especial</option>
+                    <option value="CTR013">CTR013 Estacas</option>
+                    <option value="CTR014">CTR014 Góndola Madrina</option>
+                    <option value="CTR015">CTR015 Grúa Industrial</option>
+                    <option value="CTR016">CTR016 Grúa</option>
+                    <option value="CTR017">CTR017 Integral</option>
+                    <option value="CTR018">CTR018 Jaula</option>
+                    <option value="CTR019">CTR019 Media Redila</option>
+                    <option value="CTR020">CTR020 Pallet o Celdillas</option>
+                    <option value="CTR021">CTR021 Plataforma</option>
+                    <option value="CTR022">CTR022 Plataforma Con Grúa</option>
+                    <option value="CTR023">CTR023 Plataforma Encortinada</option>
+                    <option value="CTR024">CTR024 Redilas</option>
+                    <option value="CTR025">CTR025 Refrigerador</option>
+                    <option value="CTR026">CTR026 Revolvedora</option>
+                    <option value="CTR027">CTR027 Semicaja</option>
+                    <option value="CTR028">CTR028 Tanque</option>
+                    <option value="CTR029">CTR029 Tolva</option>
+                    <option value="CTR031">CTR031 Volteo</option>
+                    <option value="CTR032">CTR032 Volteo Desmontable</option>
+                  </select>
+                  <label for="PlacaTransporte">Placa:</label>
+                          <input type="text" id="PlacaTransporte" name="PlacaTransporte" >
+    
+          
+                        </div></div>
+                        <div class="form-section">
+                            <div class="form-group">
+                              <h3>Tipos de Figura</h3>
+                              <label>Tipo de figura de transporte:</label>
+                              <select>
+                                <option value="operador">Operador</option>
+                                <option value="propietario">Propietario</option>
+                                <option value="arrendador">Arrendador</option>
+                                <option value="notificado">Notificado</option>
+                                <option value="integranteCoordinados">Integrante de Coordinados</option>
+                              </select>
+                              
+                              <label>Número de licencia:</label>
+                              <input type="text" name="Licencia" id="Liccencia"  placeholder="Ingrese entre 8 y 10 dígitos numéricos" required 
+                                     maxlength="10" minlength="8" 
+                                     pattern="\d{8,10}" 
+                                     oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                              <label>Nombre de figura:</label>
+                              <input type="text" name="NFigura" required>
+                              <label>Número de identificación o registro fiscal de la figura de transporte:</label>
+                              <input type="text" name="Fiscal" id="Fiscal"  placeholder="Ingrese entre 8 y 10 dígitos numéricos" required 
+                                     maxlength="10" minlength="8" 
+                                     pattern="\d{8,10}" 
+                                     oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                     <label>Residencia fiscal de la figura de transporte:</label>
+                                     <input type="text" name="ResidenciaFigura" required>
+                            </div></div>
+
+
+
+            
+            <button type="submit">Guardar Carta Porte</button>
+           
+    </div>
+</form>
+<footer>
+    <img id="logopie" src="img/LOGO_CENCA-removebg-preview.png"><img>
+  
+    © 2025 - Software de certificados y documentos oficiales CERTICENC V0.1
+  
+  Teléfonos: +52 00 00 00 00 00 / +52 00 00 00 00 00
+  Lunes a viernes de 9am a 6pm
+  </footer>
+               
+            
+        </form>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const largoInput = document.querySelector('input[name="largo"]');
+        const anchoInput = document.querySelector('input[name="ancho"]');
+        const altoInput = document.querySelector('input[name="alto"]');
+        const volumenInput = document.querySelector('input[name="volumen"]');
+    
+        function calcularVolumen() {
+            const largo = parseFloat(largoInput.value) || 0;
+            const ancho = parseFloat(anchoInput.value) || 0;
+            const alto = parseFloat(altoInput.value) || 0;
+            const volumen = largo * ancho * alto;
+            volumenInput.value = volumen.toFixed(2);
+        }
+    
+        largoInput.addEventListener("input", calcularVolumen);
+        anchoInput.addEventListener("input", calcularVolumen);
+        altoInput.addEventListener("input", calcularVolumen);
+    });
+    </script>
+</html>
